@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" integrity="sha256-JDBcnYeV19J14isGd3EtnsCQK05d8PczJ5+fvEvBJvI=" crossorigin="anonymous" />
+    <!-- BotUI -->
+    <!-- required for basic layout -->
+    <link rel="stylesheet" href="https://unpkg.com/botui/build/botui.min.css">
+   
+    <!-- default theme - you can create your own theme -->
+    <link rel="stylesheet" href="https://unpkg.com/botui/build/botui-theme-default.css">
+       
+    
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <h1>Hello, world!</h1>
+    <div class="botui-app-container" id="hello-world">
+        <bot-ui></bot-ui>
+    </div>
+    <!-- BotUi -->
+    <script src="https://cdn.jsdelivr.net/vue/latest/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/botui/build/botui.js"></script>
+    <script>
+    var botui = new BotUI('hello-world');
+    botui.message.add({
+        content: 'Hallo! Ich bin easyBot und leite Dich gleich zu einem menschlichen Kollegen weiter. Damit wir Deine Frage schnellstmöglich beantworten können, müssen wir jedoch wissen, wer Du bist.'
+        }).then(function () { // wait till previous message has been shown.
+    botui.message.add({
+        delay: 1000,
+        human: false,
+        content: 'Wie lautet dein Name (Vor- und Nachname)?'
+    }).then(function() {
+        botui.action.text({ // show 'text' action
+            human: true,
+            action: {
+            placeholder: 'Your name'
+            }
+        }).then(function() {
+            botui.message.add({
+                delay:1000,
+                human: false,
+                content: "Was ist Dein Geburtsdatum?"
+            }).then(function() {
+                botui.action.text({
+                    action: {
+                        type: 'text',
+                        cssClass: 'gebdat'
+                    }
+                })
+                $('.gebdat').datepicker({});
+            });
+        });
+    });
+    });
+    </script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js" integrity="sha256-tW5LzEC7QjhG0CiAvxlseMTs2qJS7u3DRPauDjFJ3zo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.de.min.js" integrity="sha256-MRg0FdDDqvQkQ3VIUMZCZ39M6O40kpoIYqCGU2rRyxE=" crossorigin="anonymous"></script>
+
+    <script>$("#hello-world").on("click",".gebdat", function() { 
+        $(this).datepicker();
+    });</script>
+
+  </body>
+</html>
