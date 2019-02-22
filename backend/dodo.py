@@ -1,3 +1,4 @@
+from doit.tools import Interactive
 def task_train():
     """Train nlu"""
     return {
@@ -25,7 +26,5 @@ def task_train_core():
 def task_run_core():
     """ Run rasa server """
     return {
-        "actions": [
-            'python -m rasa_core.run -d models/current/dialogue -u models/current/nlu'
-        ]
+        "actions": [Interactive('python -m rasa_core.run -d models/current/dialogue -u models/current/nlu')]
     }
