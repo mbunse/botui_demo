@@ -11,7 +11,7 @@ def task_run_nlu():
     """ Run rasa server """
     return {
         "actions": [
-            'python -m rasa_nlu.server --path ./models'
+            Interactive('python -m rasa_nlu.server --path ./models')
         ]
     }
 
