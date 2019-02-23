@@ -16,6 +16,9 @@ python -m spacy download en_core_web_md
 ```
 doit train
 doit train_core
+
+doit train_de
+doit train_core_de
 ```
 
 ## Run interactive
@@ -25,7 +28,13 @@ doit run_core
 
 ## Run Socket.io server
 ```
-doit run_server
+doit core_server
+doit core_server_de
+```
+
+## Run action server
+```
+doit run_actions
 ```
 
 # Frontend
