@@ -40,8 +40,22 @@
             // https://stackoverflow.com/questions/37104199/how-to-await-for-a-callback-to-return
             const socketOn = (event) => new Promise(resolve => socket.on(event, resolve));
             bot_res = await socketOn('bot_uttered') // recieveing a reply from server.
-            await botui.message.add({content: bot_res.text, delay: 500});
-            res = await botui.action.text({ action: { } })
+            if ('quick_replies' in bot_res) {
+                await botui.message.add({content: bot_res.text, delay: 500});
+                bot_res.quick_replies.forEach(element => {
+                      element.value=element.payload;
+                      element.text=element.title;
+                    });
+                res = await botui.action.button({ // let user do something
+                    delay: 1000,
+                    action: bot_res.quick_replies
+                });
+            }
+            else {
+                await botui.message.add({content: bot_res.text, delay: 500});
+                res = await botui.action.text({ action: { } });
+            }
+            
         }
     })();
     </script>

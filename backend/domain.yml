@@ -27,6 +27,11 @@ templates:
 
   utter_greet:
   - text: "Nice to you meet you {name}. How can I help?"
+    buttons:
+    - title: "blue"
+      payload: '/choose{"color": "blue"}'
+    - title: "red"
+      payload: '/choose{"color": "red"}'
 
   utter_bye:
   - text: "Talk to you later!"
