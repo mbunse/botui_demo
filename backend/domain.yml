@@ -4,15 +4,22 @@ intents:
 - thank
 - affirm
 - name
+- mood
 
 
 entities:
 - name
+- mood
 
 
 slots:
   name:
     type: text
+  mood:
+    type: categorical
+    values:
+      - happy
+      - sad
 
 
 actions:
@@ -20,18 +27,23 @@ actions:
 - utter_thank
 - utter_greet
 - utter_bye
+- utter_reinforcement
+- utter_encouragement
 
 templates:
   utter_name:
   - text: "Hey there! Tell me your name."
+    buttons:
+    - title: "Your name"
+      payload: ""
 
   utter_greet:
-  - text: "Nice to you meet you {name}. How can I help?"
+  - text: "Nice to you meet you {name}. How are you?"
     buttons:
-    - title: "blue"
-      payload: '/choose{"color": "blue"}'
-    - title: "red"
-      payload: '/choose{"color": "red"}'
+    - title: "happy"
+      payload: '/mood{"mood": "happy"}'
+    - title: "sad"
+      payload: '/mood{"mood": "sad"}'
 
   utter_bye:
   - text: "Talk to you later!"
@@ -39,3 +51,8 @@ templates:
   utter_thank:
   - text: "My pleasure."
   
+  utter_reinforcement:
+  - text: "That's greet. Stay who you are!"
+
+  utter_encouragement:
+  - text: "Chin up! Everything will turn out all right."

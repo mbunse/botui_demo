@@ -23,3 +23,11 @@
  - utter_thank
 * bye
  - utter_bye 
+
+## story_sad
+* mood{"mood":"sad"}
+ - utter_encouragement
+
+## story_sad
+* mood{"mood":"happy"}
+ - utter_reinforcement

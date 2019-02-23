@@ -74,4 +74,4 @@
 - I'm [Tracy](name)
 - Call me [Sally](name)
 - I am [Philipp](name)
-- I am [Charlie](nam
+- I am [Charlie](name)

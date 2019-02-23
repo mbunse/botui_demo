@@ -42,14 +42,28 @@
             bot_res = await socketOn('bot_uttered') // recieveing a reply from server.
             if ('quick_replies' in bot_res) {
                 await botui.message.add({content: bot_res.text, delay: 500});
-                bot_res.quick_replies.forEach(element => {
-                      element.value=element.payload;
-                      element.text=element.title;
+
+                // hanle name request
+                if (bot_res.quick_replies[0].title == "Your name") { 
+                    res = await botui.action.text({ // let user do something
+                        delay: 1000,
+                        action: {
+                            placeholder: bot_res.quick_replies[0].title
+                        }
                     });
-                res = await botui.action.button({ // let user do something
-                    delay: 1000,
-                    action: bot_res.quick_replies
-                });
+                    res.value = '/name{"name": "' + res.value + '"}';
+                } 
+                // handle boolean and categorical buttons
+                else {
+                    bot_res.quick_replies.forEach(element => {
+                        element.value=element.payload;
+                        element.text=element.title;
+                        });
+                    res = await botui.action.button({ // let user do something
+                        delay: 1000,
+                        action: bot_res.quick_replies
+                    });
+                }
             }
             else {
                 await botui.message.add({content: bot_res.text, delay: 500});
