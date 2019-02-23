@@ -33,18 +33,17 @@
     var botui = new BotUI('hello-world');
     var socket = io.connect('http://localhost:5005');
     (async function () {
-        await botui.message.add({ content: 'Hi, I am easyBot.', delay: 1500 })
-        res = await botui.action.text({ action: { placeholder: 'Say Hello' } })
+        res = {value: "/greet"}
         while (res.value != 'stop') {
             await socket.emit('user_uttered', {message: res.value}); // sends the message typed to server
             // https://stackoverflow.com/questions/37104199/how-to-await-for-a-callback-to-return
             const socketOn = (event) => new Promise(resolve => socket.on(event, resolve));
-            bot_res = await socketOn('bot_uttered') // recieveing a reply from server.
+            bot_res = await socketOn('bot_uttered') // recieving a reply from server.
             if ('quick_replies' in bot_res) {
                 await botui.message.add({content: bot_res.text, delay: 500});
 
-                // hanle name request
-                if (bot_res.quick_replies[0].title == "Your name") { 
+                // handle name request
+                if (bot_res.quick_replies[0].payload == "name") { 
                     res = await botui.action.text({ // let user do something
                         delay: 1000,
                         action: {

@@ -34,8 +34,8 @@ templates:
   utter_name:
   - text: "Hey there! Tell me your name."
     buttons:
-    - title: "Your name"
-      payload: ""
+    - title: "firstname surname"
+      payload: "name"
 
   utter_greet:
   - text: "Nice to you meet you {name}. How are you?"

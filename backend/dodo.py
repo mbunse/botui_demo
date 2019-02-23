@@ -7,11 +7,27 @@ def task_train():
         ]
     }
 
+def task_train_de():
+    """Train nlu DE"""
+    return {
+        "actions": [
+            'python -m rasa_nlu.train -c nlu_config_de.yml --data data/train_de.md -o models_de --fixed_model_name nlu --project current --verbose'
+        ]
+    }
+
 def task_run_nlu():
     """ Run rasa server """
     return {
         "actions": [
             Interactive('python -m rasa_nlu.server --path ./models')
+        ]
+    }
+
+def task_run_nlu_de():
+    """ Run rasa server DE """
+    return {
+        "actions": [
+            Interactive('python -m rasa_nlu.server --path ./models_de')
         ]
     }
 
@@ -23,10 +39,24 @@ def task_train_core():
         ]
     }
 
+def task_train_core_de():
+    """ Train rasa core DE """
+    return {
+        "actions": [
+            'python -m rasa_core.train -d domain_de.yml -s data/stories.md -o models_de/current/dialogue -c policies.yml'
+        ]
+    }
+
 def task_run_core():
     """ Run rasa server """
     return {
         "actions": [Interactive('python -m rasa_core.run -d models/current/dialogue -u models/current/nlu')]
+    }
+
+def task_run_core_de():
+    """ Run rasa server """
+    return {
+        "actions": [Interactive('python -m rasa_core.run -d models_de/current/dialogue -u models_de/current/nlu')]
     }
 
 def task_core_server():
@@ -34,4 +64,9 @@ def task_core_server():
     return {
         "actions": [Interactive('python -m rasa_core.run -d models/current/dialogue -u models/current/nlu --port 5005 --cors "*" --credentials credentials.yml')]
     }
-    
+
+def task_core_server_de():
+    """ Run rasa server """
+    return {
+        "actions": [Interactive('python -m rasa_core.run -d models_de/current/dialogue -u models_de/current/nlu --port 5005 --cors "*" --credentials credentials.yml')]
+    }

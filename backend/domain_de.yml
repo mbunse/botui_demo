@@ -1,0 +1,67 @@
+intents:
+- greet
+- bye
+- thank
+- affirm
+- name
+- product
+
+
+entities:
+- name
+- product
+
+
+slots:
+  name:
+    type: text
+  product:
+    type: categorical
+    values:
+      - credit
+      - account
+
+
+actions:
+- utter_ask_name
+- utter_ask_birthday
+- utter_ask_contract_no
+- utter_ask_product
+- utter_thank
+- utter_bye
+
+forms:
+  - authenticate_form
+
+templates:
+  utter_ask_name:
+  - text: "Wie lautet Dein Name (Vor- und Nachnamen)?"
+    buttons:
+    - title: "Vorname Nachname"
+      payload: "name"
+  
+  utter_ask_birthday:
+  - text: "Was ist Dein Geburtsdatum?"
+    buttons:
+    - title: "dd.mm.jjjj"
+      payload: "birthday"
+
+  utter_ask_product:
+  - text: "Um welches Produkt geht es?"
+    buttons:
+    - title: "Kredit"
+      payload: '/product{"product": "credit"}'
+    - title: "Konto"
+      payload: '/product{"product": "account"}'
+
+  utter_ask_contract_no:
+  - text: "Wie lautet Deine Vertragsnummer?"
+    buttons:
+    - title: "1234567890"
+      payload: "contract_no"
+
+  utter_bye:
+  - text: "Ich leite Dich jetzt an einen menschlichen Kollegen weiter"
+  
+  utter_thank:
+  - text: "Gerngeschehen."

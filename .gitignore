@@ -3,3 +3,4 @@ models/
 .doit.*
 .vscode
 *.log
+models_de/

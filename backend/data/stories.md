@@ -9,25 +9,3 @@
 ## story_thank
 * thank
  - utter_thank
- 
-## story_name
-* name{"name":"Sam"}
- - utter_greet
- 
-## story_happy
-* greet
- - utter_name
-* name{"name":"Lucy"} <!--- User response with an entity. In this case it represents user message 'My name is Lucy.' --> 
- - utter_greet
-* thank
- - utter_thank
-* bye
- - utter_bye 
-
-## story_sad
-* mood{"mood":"sad"}
- - utter_encouragement
-
-## story_sad
-* mood{"mood":"happy"}
- - utter_reinforcement
