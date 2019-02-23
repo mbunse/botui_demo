@@ -32,6 +32,6 @@ def task_run_core():
 def task_core_server():
     """ Run rasa server """
     return {
-        "actions": [Interactive('python -m rasa_core.run -d models/current/dialogue -u models/current/nlu --port 5005 --cors "*"')]
+        "actions": [Interactive('python -m rasa_core.run -d models/current/dialogue -u models/current/nlu --port 5005 --cors "*" --credentials credentials.yml')]
     }
     

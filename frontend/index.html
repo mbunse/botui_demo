@@ -26,53 +26,24 @@
     <!-- BotUi -->
     <script src="https://cdn.jsdelivr.net/vue/latest/vue.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/botui/build/botui.js"></script>
+    <!-- Socket.oi -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+
     <script>
     var botui = new BotUI('hello-world');
-    botui.message.add({
-        content: 'Hallo! Ich bin easyBot und leite Dich gleich zu einem menschlichen Kollegen weiter. Damit wir Deine Frage schnellstmöglich beantworten können, müssen wir jedoch wissen, wer Du bist.'
-        }).then(function () { // wait till previous message has been shown.
-    botui.message.add({
-        delay: 1000,
-        human: false,
-        content: 'Wie lautet dein Name (Vor- und Nachname)?'
-    }).then(function() {
-        botui.action.text({ // show 'text' action
-            human: true,
-            action: {
-            placeholder: 'Your name'
-            }
-        }).then(function() {
-            botui.message.add({
-                delay:1000,
-                human: false,
-                content: "Was ist Dein Geburtsdatum?"
-            }).then(function() {
-                botui.action.text({
-                    action: {
-                        type: 'text'
-                    }
-                }).then(function() {
-            botui.message.add({
-                delay:1000,
-                human: false,
-                content: "Wie lautet Deine easyCredit Vertragsnummer?"
-            }).then(function() {
-                botui.action.text({
-                    action: {
-                        type: 'text'
-                    }
-                }).then(function() {
-            botui.message.add({
-                delay:1000,
-                human: false,
-                content: "Vielen Dank. Ich leite Dich nun an meinen menschlichen Kollegen weiter."
-            }) });
-            });
-        });
-    });
-    });
-});
-});
+    var socket = io.connect('http://localhost:5005');
+    (async function () {
+        await botui.message.add({ content: 'Hi, I am easyBot.', delay: 1500 })
+        res = await botui.action.text({ action: { placeholder: 'Say Hello' } })
+        while (res.value != 'stop') {
+            await socket.emit('user_uttered', {message: res.value}); // sends the message typed to server
+            // https://stackoverflow.com/questions/37104199/how-to-await-for-a-callback-to-return
+            const socketOn = (event) => new Promise(resolve => socket.on(event, resolve));
+            bot_res = await socketOn('bot_uttered') // recieveing a reply from server.
+            await botui.message.add({content: bot_res.text, delay: 500});
+            res = await botui.action.text({ action: { } })
+        }
+    })();
     </script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
