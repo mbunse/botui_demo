@@ -2,3 +2,4 @@ backend/__pycache__
 models/
 .doit.*
 .vscode
+*.log
