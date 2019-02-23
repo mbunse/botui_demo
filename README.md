@@ -1,5 +1,6 @@
 # Chatbot Example
 
+![demo](assets/demo.gif)
 # Backend
 
 ## Installation
