@@ -5,7 +5,7 @@ intents:
 - affirm
 - name
 - product
-
+- contract_no
 
 entities:
 - name
@@ -20,6 +20,10 @@ slots:
     values:
       - credit
       - account
+  birthday:
+    type: text
+  contract_no:
+    type: text
 
 
 actions:
@@ -27,6 +31,7 @@ actions:
 - utter_ask_birthday
 - utter_ask_contract_no
 - utter_ask_product
+- utter_contract_no_help
 - utter_thank
 - utter_bye
 
@@ -56,12 +61,12 @@ templates:
 
   utter_ask_contract_no:
   - text: "Wie lautet Deine Vertragsnummer?"
-    buttons:
-    - title: "1234567890"
-      payload: "contract_no"
+
+  utter_contract_no_help:
+  - text: "Du findest die Vertragsnummer auf allen Schreiben von uns oben rechts. Die Vertragsnummer ist eine zehnstellige Zahl."
 
   utter_bye:
   - text: "Ich leite Dich jetzt an einen menschlichen Kollegen weiter"
   
   utter_thank:
-  - text: "Gerngeschehen."
+  - text: "Gern geschehen."

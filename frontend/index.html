@@ -43,14 +43,15 @@
                 await botui.message.add({content: bot_res.text, delay: 500});
 
                 // handle name request
-                if (bot_res.quick_replies[0].payload == "name") { 
+                if (["name", "birthday", "contract_no"].includes(bot_res.quick_replies[0].payload)) { 
+                    slot = bot_res.quick_replies[0].payload
                     res = await botui.action.text({ // let user do something
                         delay: 1000,
                         action: {
                             placeholder: bot_res.quick_replies[0].title
                         }
                     });
-                    res.value = '/name{"name": "' + res.value + '"}';
+                    res.value = `/${slot}:{"${slot}": "${res.value}"}`;
                 } 
                 // handle boolean and categorical buttons
                 else {

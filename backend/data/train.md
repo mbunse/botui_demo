@@ -59,19 +59,23 @@
 - yes yes yes
 - definitely
 
-## intent:name
-- My name is [Alice](name)  <!--- Square brackets contain the value of entity while the text inside the parentheses is a a label of the entity --> 
-- I am [Josh](name)
-- I'm [Lucy](name)
-- People call me [Greg](name)
-- It's [David](name)
-- Usually people call me [Amy](name)
-- My name is [John](name)
-- You can call me [Sam](name)
-- Please call me [Linda](name)
-- Name name is [Tom](name)
-- I am [Richard](name)
-- I'm [Tracy](name)
-- Call me [Sally](name)
-- I am [Philipp](name)
-- I am [Charlie](name)
+## intent:contract_no_unknown
+- i can't find my contract no
+- i can't find my contract number
+- where do i find my contract no
+- i don't know my contract number
+- never heard of a contract number
+
+## inten:clueless
+- no plan
+- no idea
+- i don't know
+- ?
+
+## intent:contract_no
+- [1234567890](contract_no)
+- my contract no is [0987654321](contract_no)
+- [0987654321](contract_no) is my contract number
+
+## regex:contract_no <!--- Name of regex is just for debugging purposes -->
+- [0-9]{10}

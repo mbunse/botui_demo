@@ -4,55 +4,69 @@ intents:
 - thank
 - affirm
 - name
-- mood
-
+- product
+- contract_no
 
 entities:
 - name
-- mood
+- product
 
 
 slots:
   name:
     type: text
-  mood:
+  product:
     type: categorical
     values:
-      - happy
-      - sad
+      - credit
+      - account
+  birthday:
+    type: text
+  contract_no:
+    type: text
 
 
 actions:
-- utter_name
+- utter_ask_name
+- utter_ask_birthday
+- utter_ask_contract_no
+- utter_ask_product
+- utter_contract_no_help
 - utter_thank
-- utter_greet
 - utter_bye
-- utter_reinforcement
-- utter_encouragement
+
+forms:
+  - authenticate_form
 
 templates:
-  utter_name:
-  - text: "Hey there! Tell me your name."
+  utter_ask_name:
+  - text: "What is your name (firstname and surname)?"
     buttons:
     - title: "firstname surname"
       payload: "name"
-
-  utter_greet:
-  - text: "Nice to you meet you {name}. How are you?"
+  
+  utter_ask_birthday:
+  - text: "What is your birthday?"
     buttons:
-    - title: "happy"
-      payload: '/mood{"mood": "happy"}'
-    - title: "sad"
-      payload: '/mood{"mood": "sad"}'
+    - title: "mm.dd.jjjj"
+      payload: "birthday"
+
+  utter_ask_product:
+  - text: "Which product is affected?"
+    buttons:
+    - title: "credit"
+      payload: '/product{"product": "credit"}'
+    - title: "account"
+      payload: '/product{"product": "account"}'
+
+  utter_ask_contract_no:
+  - text: "Could you please give me your contract number?"
+
+  utter_contract_no_help:
+  - text: "You can find your contract number on every letter from us in the upper right. It is a ten digit number."
 
   utter_bye:
-  - text: "Talk to you later!"
+  - text: "I will now forward you to one of my human colleagues"
   
   utter_thank:
-  - text: "My pleasure."
-  
-  utter_reinforcement:
-  - text: "That's greet. Stay who you are!"
-
-  utter_encouragement:
-  - text: "Chin up! Everything will turn out all right."
+  - text: "You are welcome."

@@ -35,3 +35,25 @@
 - das ist korrekt
 - ja, so ist es
 
+## intent:contract_no_unknown
+- ich finde meine Vertragsnummer nicht
+- wo finde ich die Vertragsnummer
+- ich weiß meine Vertragsnummer nicht
+- ich kenne die Vertragsnummer nicht
+- was soll das für eine Nummer sein
+- Vertragsnummer habe ich noch nie gehört
+
+## inten:clueless
+- keine Ahnung
+- weiß ich nicht
+- kenne ich nicht
+- kein Plan
+- ?
+
+## intent:contract_no
+- [1234567890](contract_no)
+- die Vetragsnummer lautet [0987654321](contract_no)
+- meine Vetragsnummer ist [0987654321](contract_no)
+
+## regex:contract_no <!--- Name of regex is just for debugging purposes -->
+- [0-9]{10}
