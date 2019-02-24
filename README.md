@@ -15,6 +15,8 @@ python -m spacy download de
 ## Train
 
 ```
+cd backend
+
 doit train
 doit train_core
 
@@ -24,6 +26,7 @@ doit train_core_de
 
 ## Run interactive
 ```
+cd backend
 doit run_core
 ```
 
@@ -42,5 +45,6 @@ doit run_actions
 
 Run the following command in the frontend folder
 ```
+cd frontend
 livereload
 ```
