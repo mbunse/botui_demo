@@ -1,0 +1,53 @@
+# https://hub.docker.com/r/rasa/rasa_core/dockerfile
+FROM python:3.6-slim
+
+SHELL ["/bin/bash", "-c"]
+
+RUN apt-get update -qq && \
+  apt-get install -y --no-install-recommends \
+  build-essential \
+  wget \
+  openssh-client \
+  graphviz-dev \
+  pkg-config \
+  git-core \
+  openssl \
+  libssl-dev \
+  libffi6 \
+  libffi-dev \
+  libpng-dev \
+  curl && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+  mkdir /app
+
+WORKDIR /app
+
+# Copy as early as possible so we can cache ...
+COPY requirements.txt .
+
+RUN pip install -r requirements.txt --no-cache-dir
+RUN python -m spacy download de
+
+COPY models_de/current model
+COPY actions.py .
+COPY credentials.yml .
+COPY endpoints.yml .
+
+# 
+RUN sed -i "s|localhost|host.docker.internal|g" endpoints.yml
+
+VOLUME ["/app/model", "/app/config", "/app/project"]
+
+EXPOSE 5005
+
+RUN chmod a+rw .
+USER 1000
+
+ENV PORT=5005
+
+COPY entrypoint.sh .
+ENTRYPOINT ["./entrypoint.sh"]
+
+# things that will be appended to entrypoint
+CMD ["start"]
