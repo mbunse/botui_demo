@@ -29,25 +29,33 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt --no-cache-dir
 RUN python -m spacy download de
 
-COPY models_de/current model
+COPY models_de/current/ model/
 COPY actions.py .
 COPY credentials.yml .
 COPY endpoints.yml .
 
-# 
 RUN sed -i "s|localhost|host.docker.internal|g" endpoints.yml
-
-VOLUME ["/app/model", "/app/config", "/app/project"]
 
 EXPOSE 5005
 
-RUN chmod a+rw .
-USER 1000
-
 ENV PORT=5005
 
-COPY entrypoint.sh .
-ENTRYPOINT ["./entrypoint.sh"]
+#RUN chmod a+rw .
 
+COPY config.sh .
+
+RUN chmod a+x config.sh && ./config.sh
+
+COPY entrypoint.sh .
+
+RUN chgrp -R 0 . && \
+    chmod -R g=u . && \
+    chmod -R g+rw . && \
+    chmod a+x entrypoint.sh
+USER 30
+
+ENTRYPOINT ["./entrypoint.sh"]
+#ENTRYPOINT python -m http.server
 # things that will be appended to entrypoint
 CMD ["start"]
+#CMD [""]

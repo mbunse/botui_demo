@@ -41,6 +41,13 @@ doit core_server_de
 doit run_actions
 ```
 
+## Deploy container in openshift
+
+```
+oc new-build --strategy docker --binary --docker-image python:3.6-slim --name chatbot-core
+oc start-build chatbot-core --from-dir . --follow
+```
+
 # Frontend
 
 Run the following command in the frontend folder

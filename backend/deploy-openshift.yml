@@ -1,0 +1,93 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: chatbot-template
+  annotations:
+    description: "Description"
+    tags: "chatbot,ai,rasa"
+objects:
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    name: chatbot-core
+  spec:
+    replicas: 1
+    selector:
+      app: chatbot-core
+      deploymentconfig: chatbot-core
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          app: chatbot-core
+          deploymentconfig: chatbot-core
+      spec:
+        containers:
+          - env:
+              - name: MONGODB_HOST
+                value: mongodb-chatbot
+              - name: MONGODB_DBNAME
+                valueFrom:
+                  secretKeyRef:
+                    key: database-name
+                    name: mongodb-chatbot
+              - name: MONGODB_PASS
+                valueFrom:
+                  secretKeyRef:
+                    key: database-password
+                    name: mongodb-chatbot
+              - name: MONGODB_USER
+                valueFrom:
+                  secretKeyRef:
+                    key: database-user
+                    name: mongodb-chatbot
+              - name: PORT
+                value: '5005'
+            image: >-
+              172.30.1.1:5000/myproject/chatbot-core:latest
+            imagePullPolicy: Always
+            name: chatbot-core
+            resources: {}
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            ports:
+              - containerPort: 5005
+                protocol: "TCP"
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+      - type: ConfigChange
+      - imageChangeParams:
+          automatic: true
+          containerNames:
+            - chatbot-core
+          from:
+            kind: ImageStreamTag
+            name: 'chatbot-core:latest'
+        type: ImageChange
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: chatbot-core
+  spec:
+    ports:
+      - name: chatbot
+        port: 5005
+        protocol: TCP
+        targetPort: 5005
+    selector:
+      name: chatbot-core
+    type: ClusterIP
