@@ -293,7 +293,7 @@ objects:
   spec:
     host: chatbot-daan-eval.ewu.oscp.easycredit.intern
     port:
-      targetPort: 5005-tcp
+      targetPort: chatbot
     to:
       kind: Service
       name: chatbot-core

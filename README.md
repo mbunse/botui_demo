@@ -54,7 +54,7 @@ oc delete all -l app=chatbot
 oc delete all -l app=chatbot-mongodb
 oc delete secret chatbot-mongodb
 oc delete all -l build=chatbot-core
-oc delete dc -l app=chatbot-core
+oc delete dc,route -l app=chatbot-core
 ```
 
 # Frontend
