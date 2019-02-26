@@ -44,8 +44,15 @@ doit run_actions
 ## Deploy container in openshift
 
 ```
-oc new-build --strategy docker --binary --docker-image python:3.6-slim --name chatbot-core
+oc process -f deploy-openshift.yml | oc create -f -
 oc start-build chatbot-core --from-dir . --follow
+```
+
+## Delete everything from OpenShift
+```
+oc delete all -l app=chatbot
+oc delete secret chatbot-mongodb
+oc delete all -l build=chatbot-core
 ```
 
 # Frontend
