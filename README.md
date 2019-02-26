@@ -51,8 +51,10 @@ oc start-build chatbot-core --from-dir . --follow
 ## Delete everything from OpenShift
 ```
 oc delete all -l app=chatbot
+oc delete all -l app=chatbot-mongodb
 oc delete secret chatbot-mongodb
 oc delete all -l build=chatbot-core
+oc delete dc -l app=chatbot-core
 ```
 
 # Frontend

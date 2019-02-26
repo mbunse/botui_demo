@@ -76,7 +76,7 @@ objects:
   metadata:
     generation: 2
     labels:
-      app: chatbot
+      app: chatbot-mongodb
       template: chatbot-template
     name: chatbot-mongodb
   spec:
@@ -92,7 +92,7 @@ objects:
     template:
       metadata:
         labels:
-          app: chatbot
+          app: chatbot-mongodb
           name: chatbot-mongodb
       spec:
         containers:
@@ -254,6 +254,21 @@ objects:
             kind: ImageStreamTag
             name: 'chatbot-core:latest'
         type: ImageChange
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: chatbot-mongodb
+    labels:
+      app: chatbot-mongodb
+  spec:
+    ports:
+      - name: mongodb
+        port: 27017
+        protocol: TCP
+        targetPort: 27017
+    selector:
+      app: chatbot-mongodb
+    type: ClusterIP
 - apiVersion: v1
   kind: Service
   metadata:

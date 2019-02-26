@@ -30,7 +30,7 @@ COPY actions.py .
 COPY credentials.yml .
 COPY endpoints.yml .
 
-RUN sed -i "s|localhost|host.docker.internal|g" endpoints.yml
+#RUN sed -i "s|localhost|host.docker.internal|g" endpoints.yml
 
 EXPOSE 5005
 
