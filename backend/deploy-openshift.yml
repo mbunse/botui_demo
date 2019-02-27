@@ -57,6 +57,9 @@ objects:
           kind: ImageStreamTag
           name: 'python:3.6-slim'
       type: Docker
+      env:
+        - name: USE_MONGO_TRACKER
+          value: yes
 - apiVersion: v1
   kind: Secret
   metadata:

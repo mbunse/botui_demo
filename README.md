@@ -48,6 +48,16 @@ oc process -f deploy-openshift.yml | oc create -f -
 oc start-build chatbot-core --from-dir . --follow
 ```
 
+## Connect to mongodb instance to check tracking
+```
+oc get pods
+# find pod for mongodb and open terminal:
+oc rsh chatbot-mongodb-1-23hsj
+$ mongo 127.0.0.1:27017/$MONGODB_DATABASE -u $MONGODB_USER -p $MONGODB_PASSWORD
+$ use sampledb
+$ db.conversations.find()
+```
+
 ## Delete everything from OpenShift
 ```
 oc delete all -l app=chatbot
