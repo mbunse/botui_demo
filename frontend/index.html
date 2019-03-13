@@ -33,8 +33,8 @@
     var botui = new BotUI('hello-world');
     var socket = io.connect('http://localhost:5005');
     function handle_response(bot_res) {
-        botui.message.add({content: bot_res.text, delay: 500});
-        if ('quick_replies' in bot_res) {
+        botui.message.add({content: bot_res.text, delay: 500}).then(() => {
+            if ('quick_replies' in bot_res) {
 
                 // handle name request
                 if (["name", "birthday", "contract_no"].includes(bot_res.quick_replies[0].payload)) { 
@@ -67,7 +67,8 @@
                     socket.emit('user_uttered', {message: res.value});
                 });
             }
-   }
+        });
+    }
     socket.emit('user_uttered', {message: "/greet"});
 
     socket.on("bot_uttered", handle_response);
