@@ -26,6 +26,7 @@ def task_run_nlu():
             Interactive('python -m rasa_nlu.server --path ./models')
         ],
         'file_dep': ["models/current/nlu/crf_model.pkl", "models/current/nlu/intent_classifier_sklearn.pkl"],
+        "uptodate": [False],
     }
 
 def task_run_nlu_de():
@@ -35,6 +36,7 @@ def task_run_nlu_de():
             Interactive('python -m rasa_nlu.server --path ./models_de')
         ],
         'file_dep': ["models_de/current/nlu/crf_model.pkl", "models_de/current/nlu/intent_classifier_sklearn.pkl"],
+        "uptodate": [False],
     }
 
 def task_train_core():
@@ -65,6 +67,7 @@ def task_run_actions():
     return {
         "actions": [Interactive('python -m rasa_core_sdk.endpoint -p 5055 --actions actions')],
         'file_dep': ["actions.py"],
+        "uptodate": [False],
     }
 
 def task_run_core():
@@ -72,6 +75,7 @@ def task_run_core():
     return {
         "actions": [Interactive('python -m rasa_core.run -d models/current/dialogue -u models/current/nlu')],
         'file_dep': ["models/current/dialogue/domain.json"],
+        "uptodate": [False],
     }
 
 def task_run_core_de():
@@ -79,6 +83,7 @@ def task_run_core_de():
     return {
         "actions": [Interactive('python -m rasa_core.run -d models_de/current/dialogue -u models_de/current/nlu --endpoints endpoints.yml')],
         'file_dep': ["models_de/current/dialogue/domain.json"],
+        "uptodate": [False],
     }
 
 def task_core_server():
@@ -87,6 +92,7 @@ def task_core_server():
         "actions": [Interactive('python -m rasa_core.run -d models/current/dialogue -u models/current/nlu --port 5005 --cors "*" --credentials credentials.yml  --endpoints endpoints.yml')],
         'file_dep': ["models/current/dialogue/domain.json", "credentials.yml", "endpoints.yml",
             "models/current/nlu/crf_model.pkl", "models/current/nlu/intent_classifier_sklearn.pkl"],
+        "uptodate": [False],
     }
 
 def task_core_server_de():
@@ -95,4 +101,5 @@ def task_core_server_de():
         "actions": [Interactive('python -m rasa_core.run -d models_de/current/dialogue -u models_de/current/nlu --port 5005 --cors "*" --credentials credentials.yml  --endpoints endpoints.yml')],
         'file_dep': ["models_de/current/dialogue/domain.json", "credentials.yml", "endpoints.yml",
             "models_de/current/nlu/crf_model.pkl", "models_de/current/nlu/intent_classifier_sklearn.pkl"],
+        "uptodate": [False],
     }
