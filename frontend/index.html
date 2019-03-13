@@ -32,26 +32,22 @@
     <script>
     var botui = new BotUI('hello-world');
     var socket = io.connect('http://localhost:5005');
-    (async function () {
-        res = {value: "/greet"}
-        while (res.value != 'stop') {
-            await socket.emit('user_uttered', {message: res.value}); // sends the message typed to server
-            // https://stackoverflow.com/questions/37104199/how-to-await-for-a-callback-to-return
-            const socketOn = (event) => new Promise(resolve => socket.on(event, resolve));
-            bot_res = await socketOn('bot_uttered') // recieving a reply from server.
-            if ('quick_replies' in bot_res) {
-                await botui.message.add({content: bot_res.text, delay: 500});
+    function handle_response(bot_res) {
+        botui.message.add({content: bot_res.text, delay: 500});
+        if ('quick_replies' in bot_res) {
 
                 // handle name request
                 if (["name", "birthday", "contract_no"].includes(bot_res.quick_replies[0].payload)) { 
                     slot = bot_res.quick_replies[0].payload
-                    res = await botui.action.text({ // let user do something
+                    botui.action.text({ // let user do something
                         delay: 1000,
                         action: {
                             placeholder: bot_res.quick_replies[0].title
                         }
+                    }).then((res) => {
+                        res.value = `/${slot}:{"${slot}": "${res.value}"}`;
+                        socket.emit('user_uttered', {message: res.value});
                     });
-                    res.value = `/${slot}:{"${slot}": "${res.value}"}`;
                 } 
                 // handle boolean and categorical buttons
                 else {
@@ -59,19 +55,23 @@
                         element.value=element.payload;
                         element.text=element.title;
                         });
-                    res = await botui.action.button({ // let user do something
+                    botui.action.button({ // let user do something
                         delay: 1000,
                         action: bot_res.quick_replies
+                    }).then((res) => {
+                        socket.emit('user_uttered', {message: res.value});
                     });
                 }
+            } else {
+                botui.action.text({ action: { } }).then((res) => {
+                    socket.emit('user_uttered', {message: res.value});
+                });
             }
-            else {
-                await botui.message.add({content: bot_res.text, delay: 500});
-                res = await botui.action.text({ action: { } });
-            }
-            
-        }
-    })();
+   }
+    socket.emit('user_uttered', {message: "/greet"});
+
+    socket.on("bot_uttered", handle_response);
+
     </script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
