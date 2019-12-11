@@ -1,3 +1,11 @@
 language: "en_core_web_md"
 
 pipeline: spacy_sklearn
+
+policies:
+  - name: KerasPolicy
+    epochs: 200
+    max_history: 3
+  - name: MemoizationPolicy
+    max_history: 3
+  - name: FormPolicy

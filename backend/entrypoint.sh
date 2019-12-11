@@ -11,7 +11,7 @@ function print_help {
 
 case ${1} in
     start)
-        exec python -m rasa_core_sdk.endpoint -p 5055 --actions actions &
+        exec rasa run actions -p 5055 &
         exec python -m rasa_core.run -d model/dialogue -u model/nlu --port $PORT --cors "*" --credentials credentials.yml  --endpoints endpoints.yml
         ;;
     run)

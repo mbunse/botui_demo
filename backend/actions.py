@@ -1,4 +1,4 @@
-from rasa_core_sdk.forms import FormAction
+from rasa_sdk.forms import FormAction
 
 class AuthenticateForm(FormAction):
     """Example of a custom form action"""

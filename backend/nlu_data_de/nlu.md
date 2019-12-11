@@ -43,7 +43,7 @@
 - was soll das für eine Nummer sein
 - Vertragsnummer habe ich noch nie gehört
 
-## inten:clueless
+## intent:clueless
 - keine Ahnung
 - weiß ich nicht
 - kenne ich nicht

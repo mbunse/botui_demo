@@ -66,7 +66,7 @@
 - i don't know my contract number
 - never heard of a contract number
 
-## inten:clueless
+## intent:clueless
 - no plan
 - no idea
 - i don't know

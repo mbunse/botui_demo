@@ -9,7 +9,7 @@ Python 3.6.8 is needed. Tested on Windows 10 64bit.
 ```
 pip install -r requirements.txt
 python -m spacy download en_core_web_md
-python -m spacy download de
+python -m spacy download de_core_news_sm
 ```
 
 ## Train
@@ -18,16 +18,14 @@ python -m spacy download de
 cd backend
 
 doit train
-doit train_core
-
 doit train_de
-doit train_core_de
 ```
 
 ## Run interactive
 ```
 cd backend
 doit run_core
+doit run_core_de
 ```
 
 ## Run Socket.io server
