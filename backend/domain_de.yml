@@ -6,6 +6,7 @@ intents:
 - name
 - product
 - contract_no
+- contract_no_unknown
 
 entities:
 - name
