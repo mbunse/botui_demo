@@ -39,6 +39,13 @@ doit core_server_de
 doit run_actions
 ```
 
+## Create db
+
+Get oracle xe (Express edition)
+Run [`prepare_db.sql`](prepare_db.sql) to create user.
+Install oracle instantclient Basic (Light) (see https://oracle.github.io/odpi/doc/installation.html#linux): 
+
+
 ## Deploy container in openshift
 
 ```
