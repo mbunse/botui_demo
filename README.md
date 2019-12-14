@@ -79,3 +79,34 @@ Run the following command in the frontend folder
 cd frontend
 livereload
 ```
+
+## Debug settings for vscode
+
+```{json}
+{
+    "name": "Rase: core de",
+    "type": "python",
+    "request": "launch",
+    "program": "path/to/bin/rasa",
+    "env": {
+        "FLASK_APP": "app.py",
+        "FLASK_ENV": "development",
+        "FLASK_DEBUG": "0"
+    },
+    "cwd": "${workspaceFolder}/backend",
+    "args": [
+        "run",
+        "--model",
+        "models/nlu.tar.gz",
+        "--port",
+        "5005",
+        "--cors",
+        "'*'",
+        "--credentials",
+        "credentials.yml",
+        "--endpoints",
+        "endpoints.yml"
+    ],
+    "justMyCode": false
+}
+```
