@@ -59,7 +59,7 @@ def task_core_server():
 def task_core_server_de():
     """ Run rasa server """
     return {
-        "actions": [Interactive('rasa run -m models_de/nlu.tar.gz --port 5005 --cors "*" --credentials credentials.yml --endpoints endpoints.yml')],
+        "actions": [Interactive('rasa run -m models_de/nlu.tar.gz --port 5005 --cors "*" --credentials credentials.yml --endpoints endpoints.yml -vv')],
         'file_dep': ["models_de/nlu.tar.gz", "credentials.yml", "endpoints.yml"],
         "uptodate": [False],
     }

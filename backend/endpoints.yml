@@ -2,9 +2,9 @@ action_endpoint:
   url: http://localhost:5055/webhook
 
 tracker_store:
-    type: SQL
+    type: oracle_tracker_store.OracleTrackerStore
     dialect: "oracle"  # the dialect used to interact with the db
-    url: "localhost:1521"  # (optional) host of the sql db, e.g. "localhost"
+    host: "localhost:1521"  # (optional) host of the sql db, e.g. "localhost"
     db: ""  # path to your db
     username:  "chatbotts"
     password:  "chooseapasswordandinserthere"
