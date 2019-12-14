@@ -1,4 +1,9 @@
 from doit.tools import Interactive
+
+DOIT_CONFIG = {
+    'backend': 'sqlite3',
+}
+
 def task_train():
     """Train nlu"""
     return {
