@@ -7,11 +7,12 @@ intents:
 - product
 - contract_no
 - contract_no_unknown
+- birthday
 
 entities:
 - name
 - product
-
+- contract_no
 
 slots:
   name:
