@@ -45,7 +45,7 @@
                             placeholder: bot_res.quick_replies[0].title
                         }
                     }).then((res) => {
-                        res.value = `/${slot}:{"${slot}": "${res.value}"}`;
+                        res.value = `/${slot}{"${slot}": "${res.value}"}`;
                         socket.emit('user_uttered', {message: res.value});
                     });
                 } 
