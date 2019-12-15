@@ -10,7 +10,7 @@ def task_train():
         "actions": [
             'rasa train --data nlu_data/ --config nlu_config.yml --domain domain.yml --out models --fixed-model-name nlu -v '
         ],
-        'file_dep': ["nlu_config.yml", "nlu_data/nlu.md", "nlu_data/stories.md"],
+        'file_dep': ["nlu_config.yml", "nlu_data/nlu.md", "nlu_data/stories.md", "domain.yml"],
         'targets': ["models/nlu.tar.gz"],
     }
 
@@ -20,7 +20,7 @@ def task_train_de():
         "actions": [
             'rasa train --data nlu_data_de/ --config nlu_config_de.yml --domain domain_de.yml --out models_de --fixed-model-name nlu -v '
         ],
-        'file_dep': ["nlu_config_de.yml", "nlu_data_de/nlu.md", "nlu_data_de/stories.md"],
+        'file_dep': ["nlu_config_de.yml", "nlu_data_de/nlu.md", "nlu_data_de/stories.md", "domain_de.yml"],
         'targets': ["models_de/nlu.tar.gz"],
     }
 
