@@ -6,7 +6,7 @@ import os
 from typing import Iterator, Optional, Text, Iterable, Union, Dict, Callable
 from time import sleep
 
-from rasa.core.tracker_store import TrackerStore
+from rasa.core.tracker_store import SQLTrackerStore, TrackerStore
 from rasa.core.domain import Domain
 from rasa.core.brokers.event_channel import EventChannel
 from rasa.core.trackers import DialogueStateTracker
@@ -14,15 +14,15 @@ from rasa.core.trackers import DialogueStateTracker
 
 logger = logging.getLogger(__name__)
 
-class OracleTrackerStore(TrackerStore):
-    """Store which can save and retrieve trackers from an SQL database."""
+class OracleTrackerStore(SQLTrackerStore):
+    """Store which can save and retrieve trackers from an Oracle database."""
 
     from sqlalchemy.ext.declarative import declarative_base
 
     Base = declarative_base()
 
-    class SQLEvent(Base):
-        """Represents an event in the SQL Tracker Store"""
+    class OracleEvent(Base):
+        """Represents an event in the Oracle Tracker Store"""
 
         from sqlalchemy import Column, Integer, String, Float, Text, Sequence
 
@@ -34,6 +34,8 @@ class OracleTrackerStore(TrackerStore):
         timestamp = Column(Float)
         intent_name = Column(String(255))
         action_name = Column(String(255))
+        value = Column(Text)
+        text = Column(Text)
         data = Column(Text)
 
     def __init__(
@@ -53,8 +55,8 @@ class OracleTrackerStore(TrackerStore):
         from sqlalchemy import create_engine
         import sqlalchemy.exc
 
-        engine_url = self.get_db_url(
-            dialect, host, port, db, username, password, query
+        engine_url = SQLTrackerStore.get_db_url(
+            dialect, host, port, db, username, password, None, query
         )
         logger.debug(
             "Attempting to connect to database via '{}'.".format(repr(engine_url))
@@ -91,102 +93,8 @@ class OracleTrackerStore(TrackerStore):
                 sleep(5)
 
         logger.debug(f"Connection to SQL database '{db}' successful.")
-
-        super().__init__(domain, event_broker)
-
-    @staticmethod
-    def get_db_url(
-        dialect: Text = "sqlite",
-        host: Optional[Text] = None,
-        port: Optional[int] = None,
-        db: Text = "rasa.db",
-        username: Text = None,
-        password: Text = None,
-        query: Optional[Dict] = None,
-    ) -> Union[Text, "URL"]:
-        """Builds an SQLAlchemy `URL` object representing the parameters needed
-        to connect to an SQL database.
-
-        Args:
-            dialect: SQL database type.
-            host: Database network host.
-            port: Database network port.
-            db: Database name.
-            username: User name to use when connecting to the database.
-            password: Password for database user.
-            query: Dictionary of options to be passed to the dialect and/or the
-                DBAPI upon connect.
-
-        Returns:
-            URL ready to be used with an SQLAlchemy `Engine` object.
-
-        """
-        from urllib.parse import urlsplit
-        from sqlalchemy.engine.url import URL
-
-        # Users might specify a url in the host
-        parsed = urlsplit(host or "")
-        if parsed.scheme:
-            return host
-
-        if host:
-            # add fake scheme to properly parse components
-            parsed = urlsplit("schema://" + host)
-
-            # users might include the port in the url
-            port = parsed.port or port
-            host = parsed.hostname or host
-
-        return URL(
-            dialect,
-            username,
-            password,
-            host,
-            port,
-            database=db,
-            query=query,
-        )
-
-    @contextlib.contextmanager
-    def session_scope(self):
-        """Provide a transactional scope around a series of operations."""
-        session = self.sessionmaker()
-        try:
-            yield session
-        finally:
-            session.close()
-
-    def keys(self) -> Iterable[Text]:
-        """Returns sender_ids of the SQLTrackerStore"""
-        with self.session_scope() as session:
-            sender_ids = session.query(self.SQLEvent.sender_id).distinct().all()
-            return [sender_id for (sender_id,) in sender_ids]
-
-    def retrieve(self, sender_id: Text) -> Optional[DialogueStateTracker]:
-        """Create a tracker from all previously stored events."""
-
-        with self.session_scope() as session:
-            query = session.query(self.SQLEvent)
-            result = (
-                query.filter_by(sender_id=sender_id)
-                .order_by(self.SQLEvent.timestamp)
-                .all()
-            )
-
-            events = [json.loads(event.data) for event in result]
-
-            if self.domain and len(events) > 0:
-                logger.debug(f"Recreating tracker from sender id '{sender_id}'")
-                return DialogueStateTracker.from_dict(
-                    sender_id, events, self.domain.slots
-                )
-            else:
-                logger.debug(
-                    "Can't retrieve tracker matching "
-                    "sender id '{}' from SQL storage. "
-                    "Returning `None` instead.".format(sender_id)
-                )
-                return None
+        # pylint: disable=bad-super-call
+        super(SQLTrackerStore, self).__init__(domain, event_broker)
 
     def save(self, tracker: DialogueStateTracker) -> None:
         """Update database with events from the current conversation."""
@@ -204,16 +112,20 @@ class OracleTrackerStore(TrackerStore):
                 intent = data.get("parse_data", {}).get("intent", {}).get("name")
                 action = data.get("name")
                 timestamp = data.get("timestamp")
+                text = data.get("text")
+                value = data.get("value")
 
                 # noinspection PyArgumentList
                 session.add(
-                    self.SQLEvent(
+                    self.OracleEvent(
                         sender_id=tracker.sender_id,
                         type_name=event.type_name,
                         timestamp=timestamp,
                         intent_name=intent,
                         action_name=action,
-                        data=json.dumps(data),
+                        text=text,
+                        value=value,
+                        data=json.dumps(data, ensure_ascii=True),
                     )
                 )
             session.commit()
@@ -222,17 +134,3 @@ class OracleTrackerStore(TrackerStore):
             "Tracker with sender_id '{}' "
             "stored to database".format(tracker.sender_id)
         )
-
-    def _additional_events(
-        self, session: "Session", tracker: DialogueStateTracker
-    ) -> Iterator:
-        """Return events from the tracker which aren't currently stored."""
-
-        n_events = (
-            session.query(self.SQLEvent.sender_id)
-            .filter_by(sender_id=tracker.sender_id)
-            .count()
-            or 0
-        )
-
-        return itertools.islice(tracker.events, n_events, len(tracker.events))
