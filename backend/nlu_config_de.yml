@@ -1,6 +1,6 @@
 language: "de_core_news_sm"
 
-pipeline: pretrained_embeddings_spacy
+pipeline: "pretrained_embeddings_spacy"
 
 policies:
   - name: KerasPolicy

@@ -1,6 +1,9 @@
 backend/__pycache__
-models/
+backend/models/
 .doit.*
 .vscode
+.idea
 *.log
-models_de/
+backend/models_de/
+venv/
+

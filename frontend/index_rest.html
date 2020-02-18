@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
+          integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+
+    <!-- BotUI -->
+    <!-- required for basic layout -->
+    <link rel="stylesheet" href="https://unpkg.com/botui/build/botui.min.css">
+
+    <!-- default theme - you can create your own theme -->
+    <link rel="stylesheet" href="https://unpkg.com/botui/build/botui-theme-default.css">
+
+
+    <title>Hello, world!</title>
+</head>
+<body>
+<h1>Hello, world!</h1>
+<div class="botui-app-container" id="hello-world">
+    <bot-ui></bot-ui>
+</div>
+<!-- BotUi -->
+<script src="https://cdn.jsdelivr.net/vue/latest/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/botui/build/botui.js"></script>
+
+<script>
+    function uuidv4() {
+        return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+            (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+        );
+    }
+
+    let sender = uuidv4();
+    var botui = new BotUI('hello-world');
+    const backendUrl = 'http://localhost:5005/webhooks/rest/webhook';
+
+    // Example POST method implementation:
+    async function postMessage(message = '') {
+        const data = {
+            "sender": sender,
+            "message": message
+        }
+        // Default options are marked with *
+        const response = await fetch(backendUrl, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *client
+            body: JSON.stringify(data) // body data type must match "Content-Type" header
+        });
+        return (await response.json())[0]; // parses JSON response into native JavaScript objects
+    }
+
+    function handle_response(bot_res) {
+        botui.message.add({content: bot_res.text, delay: 500}).then(() => {
+            if ('buttons' in bot_res) {
+
+                // handle name request
+                if (["name", "birthday", "contract_no"].includes(bot_res.buttons[0].payload)) {
+                    let slot = bot_res.buttons[0].payload
+                    botui.action.text({ // let user do something
+                        delay: 1000,
+                        action: {
+                            placeholder: bot_res.buttons[0].title
+                        }
+                    }).then((res) => {
+                        let payload = {};
+                        payload[slot] = res.value;
+                        res.value = `/${slot}` + JSON.stringify(payload);
+                        postMessage(res.value).then(handle_response);
+                    });
+                }
+                // handle boolean and categorical buttons
+                else {
+                    bot_res.buttons.forEach(element => {
+                        element.value = element.payload;
+                        element.text = element.title;
+                    });
+                    botui.action.button({ // let user do something
+                        delay: 1000,
+                        action: bot_res.buttons
+                    }).then((res) => {
+                        postMessage(res.value).then(handle_response);
+                    });
+                }
+            } else {
+                botui.action.text({action: {}}).then((res) => {
+                    postMessage(res.value).then(handle_response);
+                });
+            }
+        });
+    }
+
+    postMessage('/greet')
+        .then(handle_response);
+
+</script>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"
+        integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>
