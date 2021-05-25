@@ -1,0 +1,63 @@
+version: "2.0"
+
+stories:
+- story: greet happy path  # The name of the story. It is not mandatory, but useful for debugging. 
+  steps:
+  - intent: greet
+  - action: authenticate_form
+  - active_loop: authenticate_form
+  - slot_was_set:
+    - name: "Sam Johns"
+    - product: "credit"
+    - birthday: "01.01.1979"
+    - contract_no: "123457890"
+  - active_loop: null
+  - action: utter_hand_over
+  - action: utter_slots_values
+
+- story: greet no contract
+  steps:
+  - intent: greet
+  - action: authenticate_form
+  - active_loop: authenticate_form
+  - slot_was_set:
+    - name: "Sam Johns"
+    - product: "credit"
+    - birthday: "01.01.1979"
+  - intent: contract_no_unknown
+  - action: utter_contract_no_help
+
+
+- story: bye
+  steps:
+  - intent: bye
+  - action: utter_bye
+
+- story: story_thank
+  steps:
+  - intent: thank
+  - action: utter_thank
+
+rules:
+- rule: Activate form
+  condition:
+  # Condition that no form is active.
+  - active_loop: null
+  steps:
+  - intent: greet
+  - action: authenticate_form
+  - active_loop: authenticate_form
+
+- rule: Submit form
+  condition:
+  # Condition that form is active.
+  - active_loop: authenticate_form
+  steps:
+  # Form is deactivated
+  - action: authenticate_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  # The actions we want to run when the form is submitted.
+  - action: utter_hand_over
+  - action: utter_slots_values

@@ -1,73 +1,74 @@
+version: '2.0'
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
 intents:
 - greet
-- bye
-- thank
-- affirm
+- birthday
 - name
 - product
 - contract_no
+- stop
+- bye
+- thank
+- clueless
+- affirm
 - contract_no_unknown
-
 entities:
+- birthday
+- contract_no
 - name
 - product
-
-
 slots:
   name:
     type: text
+    influence_conversation: true
   product:
     type: categorical
+    influence_conversation: true
     values:
-      - credit
-      - account
+    - credit
+    - account
   birthday:
     type: text
+    influence_conversation: true
   contract_no:
     type: text
-
-
-actions:
-- utter_ask_name
-- utter_ask_birthday
-- utter_ask_contract_no
-- utter_ask_product
-- utter_contract_no_help
-- utter_thank
-- utter_bye
-
-forms:
-  - authenticate_form
-
-templates:
+    influence_conversation: true
+responses:
   utter_ask_name:
-  - text: "What is your name (firstname and surname)?"
-    buttons:
-    - title: "firstname surname"
-      payload: "name"
-  
+  - text: What is your name (firstname and surname)?
   utter_ask_birthday:
-  - text: "What is your birthday?"
-    buttons:
-    - title: "mm.dd.jjjj"
-      payload: "birthday"
-
+  - text: What is your birthday?
   utter_ask_product:
-  - text: "Which product is affected?"
+  - text: Which product is affected?
     buttons:
-    - title: "credit"
-      payload: '/product{"product": "credit"}'
-    - title: "account"
-      payload: '/product{"product": "account"}'
-
+    - title: credit
+      payload: '/product{{"product": "credit"}}'
+    - title: account
+      payload: '/product{{"product": "account"}}'
   utter_ask_contract_no:
-  - text: "Could you please give me your contract number?"
-
+  - text: Could you please give me your contract number?
   utter_contract_no_help:
-  - text: "You can find your contract number on every letter from us in the upper right. It is a ten digit number."
-
-  utter_bye:
-  - text: "I will now forward you to one of my human colleagues"
-  
+  - text: You can find your contract number on every letter from us in the upper right. It is a ten digit number.
+  utter_hand_over:
+  - text: I will now forward you to one of my human colleagues
+  utter_slots_values:
+  - text: 'Name: {name}, Birthday: {birthday}, Contract No.: {contract_no}'
   utter_thank:
-  - text: "You are welcome."
+  - text: You are welcome.
+  utter_bye:
+  - text: Bye.
+forms:
+  authenticate_form:
+    required_slots:
+      name:
+      - type: from_text
+      product:
+      - type: from_entity
+        entity: product
+      birthday:
+      - type: from_text
+      contract_no:
+      - type: from_text
+        excluded_intent: contract_no_unknown

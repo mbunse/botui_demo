@@ -1,0 +1,105 @@
+version: "2.0"
+
+nlu:
+- intent: bye
+  examples: |
+    - Bye 			
+    - Goodbye
+    - See you later
+    - Bye bot
+    - Goodbye friend
+    - bye
+    - bye for now
+    - catch you later
+    - gotta go
+    - See you
+    - goodnight
+    - have a nice day
+    - i'm off
+    - see you later alligator
+    - we'll speak soon
+
+- intent: name
+  examples: |
+    - [Sam Fisher](name)
+    - [Sam](name)
+    - [Fisher](name)
+    - [Moritz](name)
+
+- intent: greet
+  examples: |
+    - Hi
+    - Hey
+    - Hi bot
+    - Hey bot
+    - Hello
+    - Good morning
+    - hi again
+    - hi folks
+    - hi Mister
+    - hi pal!
+    - hi there
+    - greetings
+    - hello everybody
+    - hello is anybody there
+    - hello robot
+
+- intent: thank
+  examples: |
+    - Thanks
+    - Thank you
+    - Thank you so much
+    - Thanks bot
+    - Thanks for that
+    - cheers
+    - cheers bro
+    - ok thanks!
+    - perfect thank you
+    - thanks a bunch for everything
+    - thanks for the help
+    - thanks a lot
+    - amazing, thanks
+    - cool, thanks
+    - cool thank you
+
+- intent: affirm
+  examples: |
+    - yes
+    - yes sure
+    - absolutely
+    - for sure
+    - yes yes yes
+    - definitely
+
+- intent: contract_no_unknown
+  examples: |
+    - i can't find my contract no
+    - i can't find my contract number
+    - where do i find my contract no
+    - i don't know my contract number
+    - never heard of a contract number
+
+- intent: clueless
+  examples: |
+    - no plan
+    - no idea
+    - i don't know
+    - ?
+
+- intent: birthday
+  examples: |
+    - [1.1.900]{"entity": "birthday", "value": "1.1.1900"}
+    - [1.1.1980](birthday)
+
+- intent: contract_no
+  examples: |
+    - [1234567890](contract_no)
+    - my contract no is [0987654321](contract_no)
+    - [0987654321](contract_no) is my contract number
+
+- regex: contract_no
+  examples: |
+    - [0-9]{10}
+- regex: birthday
+  examples: |
+    - \d\d\/\d\d/\d\d\d\d

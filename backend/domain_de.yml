@@ -1,73 +1,77 @@
+version: '2.0'
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
 intents:
 - greet
+- name
+- contract_no
+- product
+- birthday
+- stop
 - bye
 - thank
+- clueless
 - affirm
-- name
-- product
-- contract_no
 - contract_no_unknown
-
 entities:
+- birthday
+- contract_no
 - name
 - product
-
-
 slots:
   name:
     type: text
+    influence_conversation: true
   product:
     type: categorical
+    influence_conversation: true
     values:
-      - credit
-      - account
+    - credit
+    - account
   birthday:
     type: text
+    influence_conversation: true
   contract_no:
     type: text
-
-
-actions:
-- utter_ask_name
-- utter_ask_birthday
-- utter_ask_contract_no
-- utter_ask_product
-- utter_contract_no_help
-- utter_thank
-- utter_bye
-
-forms:
-  - authenticate_form
-
-templates:
+    influence_conversation: true
+responses:
   utter_ask_name:
-  - text: "Wie lautet Dein Name (Vor- und Nachnamen)?"
-    buttons:
-    - title: "Vorname Nachname"
-      payload: "name"
-  
+  - text: Wie lautet Dein Name (Vor- und Nachnamen)?
   utter_ask_birthday:
-  - text: "Was ist Dein Geburtsdatum?"
-    buttons:
-    - title: "dd.mm.jjjj"
-      payload: "birthday"
-
+  - text: Was ist Dein Geburtsdatum?
   utter_ask_product:
-  - text: "Um welches Produkt geht es?"
+  - text: Um welches Produkt geht es?
     buttons:
-    - title: "Kredit"
-      payload: '/product{"product": "credit"}'
-    - title: "Konto"
-      payload: '/product{"product": "account"}'
-
+    - title: Kredit
+      payload: '/product{{"product": "credit"}}'
+    - title: Konto
+      payload: '/product{{"product": "account"}}'
   utter_ask_contract_no:
-  - text: "Wie lautet Deine Vertragsnummer?"
-
+  - text: Wie lautet Deine Vertragsnummer?
   utter_contract_no_help:
-  - text: "Du findest die Vertragsnummer auf allen Schreiben von uns oben rechts. Die Vertragsnummer ist eine zehnstellige Zahl."
-
-  utter_bye:
-  - text: "Ich leite Dich jetzt an einen menschlichen Kollegen weiter"
-  
+  - text: Du findest die Vertragsnummer auf allen Schreiben von uns oben rechts. Die Vertragsnummer ist eine zehnstellige Zahl.
+  utter_hand_over:
+  - text: Ich leite Dich jetzt an einen menschlichen Kollegen weiter
+  utter_slots_values:
+  - text: 'Name: {name}, Geburtstag: {birthday}, Vertragsnummer: {contract_no}'
   utter_thank:
-  - text: "Gern geschehen."
+  - text: Gern geschehen.
+  utter_bye:
+  - text: Bis bald.
+actions:
+- utter_hand_over
+- utter_slots_values
+forms:
+  authenticate_form:
+    required_slots:
+      name:
+      - type: from_text
+      product:
+      - type: from_entity
+        entity: product
+      birthday:
+      - type: from_text
+      contract_no:
+      - type: from_text
+        excluded_intent: contract_no_unknown

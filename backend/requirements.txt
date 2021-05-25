@@ -1,5 +1,4 @@
-rasa==1.5.3
-spacy==2.0.18
-doit==0.32.0
-livereload==2.6.1
-spacy==2.2.3
+rasa >= 2.6
+rasa-sdk >= 2.6
+spacy >= 3.0
+doit >= 0.33

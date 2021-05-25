@@ -5,7 +5,7 @@
 
 ## Installation
 
-Python 3.6.8 is needed. Tested on Windows 10 64bit.
+Python 3.8.10 is needed. Tested on Windows 10 64bit.
 ```
 pip install -r requirements.txt
 python -m spacy download en_core_web_md
@@ -38,6 +38,10 @@ doit core_server_de
 ```
 doit run_actions
 ```
+
+## Date extraction
+
+see https://rasa.com/docs/rasa/components#ducklingentityextractor
 
 ## Deploy container in openshift
 
