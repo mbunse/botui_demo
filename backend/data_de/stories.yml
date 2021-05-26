@@ -1,0 +1,239 @@
+version: "2.0"
+
+stories:
+- story: greet happy path  # The name of the story. It is not mandatory, but useful for debugging. 
+  steps:
+  - intent: affirm_data_privacy
+  - action: authenticate_form
+  - active_loop: authenticate_form
+  - slot_was_set:
+    - name: "Sam Johns"
+    - product: "credit"
+    - birthday: "01.01.1979"
+    - contract_no: "123457890"
+    - validate_authenticate_form_fails: '0'
+  - active_loop: null
+  - action: utter_hand_over
+  - action: utter_slots_values
+
+- story: greet no contract
+  steps:
+  - intent: affirm_data_privacy
+  - action: authenticate_form
+  - active_loop: authenticate_form
+  - slot_was_set:
+    - name: "Sam Johns"
+    - product: "credit"
+    - birthday: "01.01.1979"
+  - intent: contract_no_unknown
+  - action: utter_contract_no_help
+
+
+- story: bye
+  steps:
+  - intent: bye
+  - action: utter_bye
+
+- story: story_thank
+  steps:
+  - intent: thank
+  - action: utter_thank
+
+
+# - story: happy path 2
+#   steps:
+#   - intent: start_session
+#   - action: utter_data_privacy_text
+#   - action: utter_ask_data_privacy
+#   - intent: affirm_data_privacy
+#   - action: authenticate_form
+#   - active_loop: authenticate_form
+#   - slot_was_set:
+#     - requested_slot: name
+#   - slot_was_set:
+#     - name: Moritz
+#   - slot_was_set:
+#     - validate_authenticate_form_fails: '0'
+#   - slot_was_set:
+#     - requested_slot: product
+#   - slot_was_set:
+#     - product: credit
+#   - slot_was_set:
+#     - requested_slot: birthday
+#   - slot_was_set:
+#     - birthday: 01.01.1900
+#   - slot_was_set:
+#     - validate_authenticate_form_fails: '0'
+#   - slot_was_set:
+#     - requested_slot: contract_no
+#   - slot_was_set:
+#     - contract_no: '0123456789'
+#   - slot_was_set:
+#     - validate_authenticate_form_fails: '0'
+#   - slot_was_set:
+#     - requested_slot: null
+#   - active_loop: null
+#   - action: utter_hand_over
+#   - action: utter_slots_values
+
+- story: deny data privacy statement
+  steps:
+  - intent: start_session
+  - action: utter_data_privacy_text
+  - action: utter_ask_data_privacy
+  - intent: deny_data_privacy
+  - action: utter_bye
+
+# - story: interactive_story_1
+#   steps:
+#   - intent: affirm_data_privacy
+#   - action: authenticate_form
+#   - active_loop: authenticate_form
+#   - slot_was_set:
+#     - requested_slot: name
+#   - slot_was_set:
+#     - name: null
+#   - slot_was_set:
+#     - validate_authenticate_form_fails: '1'
+#   - slot_was_set:
+#     - requested_slot: name
+#   - slot_was_set:
+#     - name: null
+#   - slot_was_set:
+#     - validate_authenticate_form_fails: '2'
+#   - action: action_deactivate_loop
+#   - active_loop: null
+#   - slot_was_set:
+#     - requested_slot: null
+#   - action: utter_hand_over
+#   - action: utter_slots_values
+
+# - story: interactive_story_1
+#   steps:
+#   - intent: affirm_data_privacy
+#   - action: authenticate_form
+#   - active_loop: authenticate_form
+#   - slot_was_set:
+#     - requested_slot: name
+#   - slot_was_set:
+#     - name: null
+#   - slot_was_set:
+#     - validate_authenticate_form_fails: '1'
+#   - slot_was_set:
+#     - requested_slot: name
+#   - slot_was_set:
+#     - name: null
+#   - slot_was_set:
+#     - validate_authenticate_form_fails: '2'
+#   - action: action_deactivate_loop
+#   - active_loop: null
+#   - slot_was_set:
+#     - requested_slot: null
+#   - action: utter_hand_over
+#   - action: utter_slots_values
+
+# - story: interactive_story_1
+#   steps:
+#   - intent: affirm_data_privacy
+#   - action: authenticate_form
+#   - active_loop: authenticate_form
+#   - slot_was_set:
+#     - requested_slot: name
+#   - slot_was_set:
+#     - name: null
+#   - slot_was_set:
+#     - validate_authenticate_form_fails: '1'
+#   - slot_was_set:
+#     - requested_slot: name
+#   - slot_was_set:
+#     - name: null
+#   - slot_was_set:
+#     - validate_authenticate_form_fails: '2'
+#   - slot_was_set:
+#     - requested_slot: name
+#   - action: action_deactivate_loop
+#   - active_loop: null
+#   - slot_was_set:
+#     - requested_slot: null
+#   - action: utter_hand_over
+#   - action: utter_slots_values
+
+- story: misunderstood name
+  steps:
+  - intent: affirm_data_privacy
+  - action: authenticate_form
+  - active_loop: authenticate_form
+  - slot_was_set:
+    - requested_slot: name
+  - slot_was_set:
+    - name: null
+  - slot_was_set:
+    - validate_authenticate_form_fails: 1
+  - slot_was_set:
+    - requested_slot: name
+  - slot_was_set:
+    - name: null
+  - slot_was_set:
+    - validate_authenticate_form_fails: 2
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_misunderstood_too_often
+  - action: utter_hand_over
+  - action: utter_slots_values
+
+- story: misunderstood birthday
+  steps:
+  - intent: affirm_data_privacy
+  - action: authenticate_form
+  - active_loop: authenticate_form
+  - slot_was_set:
+    - name: "Sam Johns"
+    - product: "account"
+  - slot_was_set:
+    - requested_slot: birthday
+  - slot_was_set:
+    - birthday: null
+  - slot_was_set:
+    - validate_authenticate_form_fails: 1
+  - slot_was_set:
+    - requested_slot: birthday
+  - slot_was_set:
+    - birthday: null
+  - slot_was_set:
+    - validate_authenticate_form_fails: 2
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_misunderstood_too_often
+  - action: utter_hand_over
+  - action: utter_slots_values
+
+- story: misunderstood contract id
+  steps:
+  - intent: affirm_data_privacy
+  - action: authenticate_form
+  - active_loop: authenticate_form
+  - slot_was_set:
+    - name: "Sam Johns"
+    - product: "account"
+    - birthday: "11.12.1992"
+  - slot_was_set:
+    - requested_slot: contract_no
+  - slot_was_set:
+    - contract_no: null
+  - slot_was_set:
+    - validate_authenticate_form_fails: 1
+  - slot_was_set:
+    - requested_slot: contract_no
+  - slot_was_set:
+    - contract_no: null
+  - slot_was_set:
+    - validate_authenticate_form_fails: 2
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_misunderstood_too_often
+  - action: utter_hand_over
+  - action: utter_slots_values
+  

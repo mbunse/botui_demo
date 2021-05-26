@@ -12,32 +12,38 @@ python -m spacy download en_core_web_md
 python -m spacy download de_core_news_sm
 ```
 
+# Backend
+
+The backend is found in the `backend` folder.
+
 ## Train
 
+Intent recognition and conversation flow prediction have to be trained
 ```
-cd backend
-
 doit train
-doit train_de
 ```
 
 ## Run interactive
+
+First, start the action server: `doit run_action`. Then:
 ```
-cd backend
-doit run_core
-doit run_core_de
+doit interactive
 ```
 
-## Run Socket.io server
+## Run Socket.io/REST server
 ```
 doit core_server
-doit core_server_de
 ```
 
-## Run action server
+# Frontend
+
+Run the following command in the frontend folder
 ```
-doit run_actions
+cd frontend
+livereload -p 8080
 ```
+
+The socketio frontend is available as http://localhost:8080/index.html, the REST version as http://localhost:8080/index_rest.html.
 
 ## Date extraction
 
@@ -67,12 +73,4 @@ oc delete all -l app=chatbot-mongodb
 oc delete secret chatbot-mongodb
 oc delete all -l build=chatbot-core
 oc delete dc,route -l app=chatbot-core
-```
-
-# Frontend
-
-Run the following command in the frontend folder
-```
-cd frontend
-livereload
 ```

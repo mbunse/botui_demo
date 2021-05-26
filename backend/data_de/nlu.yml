@@ -18,7 +18,6 @@ nlu:
     - [Sam](name)
     - [Fisher](name)
     - [Moritz](name)
-    - M[oritz]{"entity": "name", "value": "Moritz"}
 - intent: greet
   examples: |
     - Hallo
@@ -71,10 +70,11 @@ nlu:
     - [0123456789](contract_no)
 - intent: birthday
   examples: |
-    - [1.1.1980](birthday)
-- regex: contract_no
-  examples: |
-    - [0-9]{10}
+    - [01.01.1980](birthday)
+    - [12.12.2001](birthday)
 - regex: birthday
   examples: |
     - \d\d\.\d\d.\d\d\d\d
+- regex: contract_no
+  examples: |
+    - [0-9]{10}
