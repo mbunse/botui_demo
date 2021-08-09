@@ -7,7 +7,7 @@ class ValidateAuthenticateForm(FormValidationAction):
     # pattern for uncode word characters except numbers    
     regex_name = r'[^\W\d]{2,}(\s[^\W\d]{2,}){0,2}'
     regex_contract_no = r'[0-9]{10}'
-    regex_birthday = r'\d\d\.\d\d\.\d\d\d\d'
+    regex_birthday = r'\d\d\d\d-\d\d-\d\d'
     max_allowed_vaid_fails = 1
     def name(self):
         return "validate_authenticate_form"

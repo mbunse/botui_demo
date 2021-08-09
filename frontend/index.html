@@ -51,9 +51,9 @@
                     action = {}
         
                     if ('placeholder' in bot_res) action['placeholder'] = bot_res.placeholder;
-                    if ('sub_type' in bot_res) action['sub_type'] = bot_res.placeholder;
-                    if ('size' in bot_res) action['size'] = bot_res.placeholder;
-                    if ('value' in bot_res) action['size'] = bot_res.placeholder;
+                    if ('sub_type' in bot_res) action['sub_type'] = bot_res.sub_type;
+                    if ('size' in bot_res) action['size'] = bot_res.size;
+                    if ('value' in bot_res) action['value'] = bot_res.value;
         
                     botui.action.text({ action: action }).then((res) => {
                         socket.emit('user_uttered', {message: res.value});

@@ -63,6 +63,7 @@
     }
 
     function handle_response(bot_res) {
+        if ('custom' in bot_res) bot_res = bot_res.custom.data
         botui.message.add({content: bot_res.text, delay: 500}).then(() => {
             if ('buttons' in bot_res) {
                 // handle boolean and categorical buttons
@@ -74,18 +75,18 @@
                     delay: 1000,
                     action: bot_res.buttons
                 }).then((res) => {
-                    postMessage(res.value).then(handle_response);
+                    postMessage(res.value).then((responses) => {responses.forEach(el => handle_response(el));});
                 });
             } else {
                 action = {}
         
                 if ('placeholder' in bot_res) action['placeholder'] = bot_res.placeholder;
-                if ('sub_type' in bot_res) action['sub_type'] = bot_res.placeholder;
-                if ('size' in bot_res) action['size'] = bot_res.placeholder;
-                if ('value' in bot_res) action['size'] = bot_res.placeholder;
+                if ('sub_type' in bot_res) action['sub_type'] = bot_res.sub_type;
+                if ('size' in bot_res) action['size'] = bot_res.size;
+                if ('value' in bot_res) action['value'] = bot_res.value;
 
                 botui.action.text({action: action}).then((res) => {
-                    postMessage(res.value).then(handle_response);
+                    postMessage(res.value).then((responses) => {responses.forEach(el => handle_response(el));});
                 });
             }
         });
