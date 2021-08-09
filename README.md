@@ -12,6 +12,14 @@ python -m spacy download en_core_web_md
 python -m spacy download de_core_news_sm
 ```
 
+Manual download of language packages:
+```
+curl -L --output de_core_news_md-3.0.0-py3-none-any.whl --url https://github.com/explosion/spacy-models/releases/download/de_core_news_md-3.0.0/de_core_news_md-3.0.0-py3-none-any.whl
+curl -L --output en_core_web_md-3.0.0-py3-none-any.whl --url https://github.com/explosion/spacy-models/releases/download/en_core_web_md-3.0.0/en_core_web_md-3.0.0-py3-none-any.whl
+pip install en_core_web_md-3.0.0-py3-none-any.whl
+pip install de_core_news_md-3.0.0-py3-none-any.whl
+```
+
 # Backend
 
 The backend is found in the `backend` folder.
@@ -32,6 +40,7 @@ doit interactive
 
 ## Run Socket.io/REST server
 ```
+doit run_actions
 doit core_server
 ```
 
