@@ -12,7 +12,7 @@ function print_help {
 case ${1} in
     start)
         exec rasa run actions -p 5055 &
-        exec python -m rasa_core.run -d model/dialogue -u model/nlu --port $PORT --cors "*" --credentials credentials.yml  --endpoints endpoints.yml
+        exec python -m rasa run -m models_de/model.tar.gz --port $PORT --cors "*" --credentials credentials.yml --endpoints endpoints.yml
         ;;
     run)
         exec "${@:2}"

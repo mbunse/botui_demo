@@ -5,39 +5,58 @@
 
 ## Installation
 
-Python 3.6.8 is needed. Tested on Windows 10 64bit.
+Python 3.8.10 is needed. Tested on Windows 10 64bit.
 ```
 pip install -r requirements.txt
 python -m spacy download en_core_web_md
 python -m spacy download de_core_news_sm
 ```
 
+Manual download of language packages:
+```
+curl -L --output de_core_news_md-3.0.0-py3-none-any.whl --url https://github.com/explosion/spacy-models/releases/download/de_core_news_md-3.0.0/de_core_news_md-3.0.0-py3-none-any.whl
+curl -L --output en_core_web_md-3.0.0-py3-none-any.whl --url https://github.com/explosion/spacy-models/releases/download/en_core_web_md-3.0.0/en_core_web_md-3.0.0-py3-none-any.whl
+pip install en_core_web_md-3.0.0-py3-none-any.whl
+pip install de_core_news_md-3.0.0-py3-none-any.whl
+```
+
+# Backend
+
+The backend is found in the `backend` folder.
+
 ## Train
 
+Intent recognition and conversation flow prediction have to be trained
 ```
-cd backend
-
 doit train
-doit train_de
 ```
 
 ## Run interactive
+
+First, start the action server: `doit run_action`. Then:
 ```
-cd backend
-doit run_core
-doit run_core_de
+doit interactive
 ```
 
-## Run Socket.io server
-```
-doit core_server
-doit core_server_de
-```
-
-## Run action server
+## Run Socket.io/REST server
 ```
 doit run_actions
+doit core_server
 ```
+
+# Frontend
+
+Run the following command in the frontend folder
+```
+cd frontend
+livereload -p 8080
+```
+
+The socketio frontend is available as http://localhost:8080/index.html, the REST version as http://localhost:8080/index_rest.html.
+
+## Date extraction
+
+see https://rasa.com/docs/rasa/components#ducklingentityextractor
 
 ## Deploy container in openshift
 
@@ -63,12 +82,4 @@ oc delete all -l app=chatbot-mongodb
 oc delete secret chatbot-mongodb
 oc delete all -l build=chatbot-core
 oc delete dc,route -l app=chatbot-core
-```
-
-# Frontend
-
-Run the following command in the frontend folder
-```
-cd frontend
-livereload
 ```

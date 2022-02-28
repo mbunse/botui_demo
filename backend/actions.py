@@ -1,41 +1,41 @@
-from rasa_sdk.forms import FormAction
+import re
 
-class AuthenticateForm(FormAction):
-    """Example of a custom form action"""
+from rasa_sdk import Tracker, FormValidationAction
 
+class ValidateAuthenticateForm(FormValidationAction):
+
+    # pattern for uncode word characters except numbers    
+    regex_name = r'[^\W\d]{2,}(\s[^\W\d]{2,}){0,2}'
+    regex_contract_no = r'[0-9]{10}'
+    regex_birthday = r'\d\d\d\d-\d\d-\d\d'
+    max_allowed_vaid_fails = 1
     def name(self):
-        # type: () -> Text
-        """Unique identifier of the form"""
- 
-        return "authenticate_form"
- 
-    @staticmethod
-    def required_slots(tracker):
-        # type: () -> List[Text]
-        """A list of required slots that the form has to fill"""
- 
-        return ["name", "product", "birthday",
-                "contract_no"]
- 
-    def submit(self, dispatcher, tracker, domain):
-        # type: (CollectingDispatcher, Tracker, Dict[Text, Any]) -> List[Dict]
-        """Define what the form has to do
-           after all required slots are filled"""
+        return "validate_authenticate_form"
 
-        # utter submit template
-        dispatcher.utter_template('utter_bye', tracker)
-        return []
+    def validate_name(self, slot_value, dispatcher, tracker, domain):
+        return self._validate_slot("name", slot_value, dispatcher, tracker)
 
-    def slot_mappings(self):
-        # type: () -> Dict[Text: Union[Dict, List[Dict]]]
-        """A dictionary to map required slots to
-        - an extracted entity
-        - intent: value pairs
-        - a whole message
-        or a list of them, where a first match will be picked"""
+    def validate_contract_no(self, slot_value, dispatcher, tracker, domain):
+        return self._validate_slot("contract_no", slot_value, dispatcher, tracker)
 
-        return {
-                "name": [self.from_entity(entity="name")],
-                "product": [self.from_entity(entity="product")],
-                "birthday": [self.from_entity(entity="birthday")],
+    def validate_birthday(self, slot_value, dispatcher, tracker, domain):
+        return self._validate_slot("birthday", slot_value, dispatcher, tracker)
+
+    def _validate_slot(self, slot_name, slot_value, dispatcher, tracker):
+        if re.fullmatch(getattr(self, f"regex_{slot_name}"), slot_value):
+            return {
+                slot_name: slot_value,
+                "validate_authenticate_form_fails": 0,
                 }
+
+        validate_authenticate_form_fails = 1
+        if tracker.get_slot("validate_authenticate_form_fails") is not None:
+            validate_authenticate_form_fails = tracker.get_slot("validate_authenticate_form_fails") + 1
+
+        dispatcher.utter_message(response=f"utter_not_valid_{slot_name}", slot_value=slot_value)
+        return {
+            slot_name: None,
+            "validate_authenticate_form_fails": validate_authenticate_form_fails,
+            # to end the form action, set requested_slot to none if the max allowed fails are exceeded.
+            "requested_slot": None if validate_authenticate_form_fails > self.max_allowed_vaid_fails else slot_name,
+            }

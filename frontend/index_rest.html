@@ -6,15 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
-          integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" integrity="sha512-Ez0cGzNzHR1tYAv56860NLspgUGuQw16GiOOp/I2LuTmpSK9xDXlgJz3XN4cnpXWDmkNBKXR/VDMTCnAaEooxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- BotUI -->
     <!-- required for basic layout -->
-    <link rel="stylesheet" href="https://unpkg.com/botui/build/botui.min.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/botui/0.3.9/botui.min.css" integrity="sha512-EQZJtWFbq1+VUd3w2SSmEcw5C1oJKTZYAzm+C0EIYD64RzTZdvVqQxuie1fjVYRJwXJNVZO0krtzuumAePYJeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+   
     <!-- default theme - you can create your own theme -->
-    <link rel="stylesheet" href="https://unpkg.com/botui/build/botui-theme-default.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/botui/0.3.9/botui-theme-default.css" integrity="sha512-tVPkSkiVpA7I90WAc0GJM1gJArWQi5VnXu+sZgdrv37OdavH/f4tuzt1xoiSMLmrsGXFc436GIGSTmtgt/g8/A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
 
     <title>Hello, world!</title>
@@ -25,8 +25,8 @@
     <bot-ui></bot-ui>
 </div>
 <!-- BotUi -->
-<script src="https://cdn.jsdelivr.net/vue/latest/vue.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/botui/build/botui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.min.js" integrity="sha512-BKbSR+cfyxLdMAsE0naLReFSLg8/pjbgfxHh/k/kUC82Hy7r6HtR5hLhobaln2gcTvzkyyehrdREdjpsQwy2Jw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/botui/0.3.9/botui.js" integrity="sha512-c7M7iwXK/PW9rpG32LRQHuAkrn7CNSj65kldL1aN/OCzDf/i5jARzCO5+AIUTdmiJ/Je2lbErQialoxoqeW8hg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
     function uuidv4() {
@@ -59,51 +59,42 @@
             referrerPolicy: 'no-referrer', // no-referrer, *client
             body: JSON.stringify(data) // body data type must match "Content-Type" header
         });
-        return (await response.json())[0]; // parses JSON response into native JavaScript objects
+        return (await response.json()); // parses JSON response into native JavaScript objects
     }
 
     function handle_response(bot_res) {
+        if ('custom' in bot_res) bot_res = bot_res.custom.data
         botui.message.add({content: bot_res.text, delay: 500}).then(() => {
             if ('buttons' in bot_res) {
-
-                // handle name request
-                if (["name", "birthday", "contract_no"].includes(bot_res.buttons[0].payload)) {
-                    let slot = bot_res.buttons[0].payload
-                    botui.action.text({ // let user do something
-                        delay: 1000,
-                        action: {
-                            placeholder: bot_res.buttons[0].title
-                        }
-                    }).then((res) => {
-                        let payload = {};
-                        payload[slot] = res.value;
-                        res.value = `/${slot}` + JSON.stringify(payload);
-                        postMessage(res.value).then(handle_response);
-                    });
-                }
                 // handle boolean and categorical buttons
-                else {
-                    bot_res.buttons.forEach(element => {
-                        element.value = element.payload;
-                        element.text = element.title;
-                    });
-                    botui.action.button({ // let user do something
-                        delay: 1000,
-                        action: bot_res.buttons
-                    }).then((res) => {
-                        postMessage(res.value).then(handle_response);
-                    });
-                }
+                bot_res.buttons.forEach(element => {
+                    element.value = element.payload;
+                    element.text = element.title;
+                });
+                botui.action.button({ // let user do something
+                    delay: 1000,
+                    action: bot_res.buttons
+                }).then((res) => {
+                    postMessage(res.value).then((responses) => {responses.forEach(el => handle_response(el));});
+                });
             } else {
-                botui.action.text({action: {}}).then((res) => {
-                    postMessage(res.value).then(handle_response);
+                action = {}
+        
+                if ('placeholder' in bot_res) action['placeholder'] = bot_res.placeholder;
+                if ('sub_type' in bot_res) action['sub_type'] = bot_res.sub_type;
+                if ('size' in bot_res) action['size'] = bot_res.size;
+                if ('value' in bot_res) action['value'] = bot_res.value;
+                if ('maxlength' in bot_res) action['maxlength'] = bot_res.maxlength;
+
+                botui.action.text({action: action}).then((res) => {
+                    postMessage(res.value).then((responses) => {responses.forEach(el => handle_response(el));});
                 });
             }
         });
     }
 
-    postMessage('/greet')
-        .then(handle_response);
+    postMessage('/start_session')
+        .then((responses) => {responses.forEach(el => handle_response(el));});
 
 </script>
 <!-- Optional JavaScript -->

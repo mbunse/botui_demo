@@ -1,0 +1,51 @@
+version: "2.0"
+
+rules:
+- rule: data privacy hint
+  conversation_start: true
+  steps:
+  - intent: start_session
+  - action: utter_data_privacy_text
+  - action: utter_ask_data_privacy
+
+- rule: data privacy deny
+  steps:
+  - intent: deny_data_privacy
+  - action: utter_bye
+
+- rule: Activate form
+  steps:
+  - intent: affirm_data_privacy
+  - action: authenticate_form
+  - active_loop: authenticate_form
+
+- rule: Submit form
+  condition:
+  # Condition that form is active.
+  - active_loop: authenticate_form
+  - slot_was_set:
+    - validate_authenticate_form_fails: '0'
+  steps:
+  # Form is deactivated
+  - action: authenticate_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  # The actions we want to run when the form is submitted.
+  - action: utter_hand_over
+  - action: utter_slots_values
+
+- rule: Leave authenticate form after three validations
+#   condition:
+#   - active_loop: authenticate_form
+  steps:
+#   - action: authenticate_form
+  - slot_was_set:
+    - validate_authenticate_form_fails: '2'
+#   # The actions we want to run when the form is submitted.
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_misunderstood_too_often
+  - action: utter_hand_over
+  - action: utter_slots_values

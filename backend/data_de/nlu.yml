@@ -1,0 +1,80 @@
+version: "2.0"
+nlu:
+- intent: bye
+  examples:
+  - text: |
+      Tschüss 			
+  - text: |
+      Auf Wiedersehen
+  - text: |
+      Bis dann
+  - text: |
+      Ade
+  - text: |
+      Einen schönen Tag noch
+- intent: name
+  examples: |
+    - [Sam Fisher](name)
+    - [Sam](name)
+    - [Fisher](name)
+    - [Moritz](name)
+- intent: greet
+  examples: |
+    - Hallo
+    - Hi
+    - Guten Tag
+    - Guten Morgen
+    - Guten Abend
+    - Hallo easyBot
+    - Good morning
+    - hi
+- intent: thank
+  examples: |
+    - Danke
+    - Danke Dir
+    - Vielen Dank
+    - Danke easyBot
+    - Danke dafür
+    - Ok danke
+    - Perfekt, danke
+- intent: affirm
+  examples: |
+    - ja
+    - sicher
+    - genau
+    - richtig
+    - das ist richtig
+    - korrekt
+    - das ist korrekt
+    - ja, so ist es
+- intent: contract_no_unknown
+  examples: |
+    - ich finde meine Vertragsnummer nicht
+    - wo finde ich die Vertragsnummer
+    - ich weiß meine Vertragsnummer nicht
+    - ich kenne die Vertragsnummer nicht
+    - was soll das für eine Nummer sein
+    - Vertragsnummer habe ich noch nie gehört
+- intent: clueless
+  examples: |
+    - keine Ahnung
+    - weiß ich nicht
+    - kenne ich nicht
+    - kein Plan
+    - ?
+- intent: contract_no
+  examples: |
+    - [1234567890](contract_no)
+    - die Vetragsnummer lautet [0987654321](contract_no)
+    - meine Vetragsnummer ist [0987654321](contract_no)
+    - [0123456789](contract_no)
+- intent: birthday
+  examples: |
+    - [01.01.1980](birthday)
+    - [12.12.2001](birthday)
+- regex: birthday
+  examples: |
+    - \d\d\.\d\d.\d\d\d\d
+- regex: contract_no
+  examples: |
+    - [0-9]{10}
