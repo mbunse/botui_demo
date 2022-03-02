@@ -3,7 +3,7 @@ channels:
   - defaults
 dependencies:
   - python=3.8
-  # - doit
+  - doit
   # - pip
   # - pip:
   #   - rasa==2.8.25

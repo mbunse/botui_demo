@@ -3,12 +3,12 @@ version: "2"
 services:
   rasa:
     image: docker.io/rasa/rasa:2.8.25
-    # ports:
-    # - "5005:5005"
+    ports:
+    - "5005:5005"
     volumes:
     - "./backend/:/app/"
     - ./docker-compose/rasa/.config:/app/.config
-    network_mode: host
+    # network_mode: host
     command:
     - run 
     - -m 
