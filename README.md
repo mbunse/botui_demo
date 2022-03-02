@@ -5,9 +5,11 @@
 
 ## Installation
 
-Python 3.8.10 is needed. Tested on Windows 10 64bit.
+Tested with Python 3.8.12
 ```
-pip install -r requirements.txt
+conda env create -f environment.yml
+pip install --use-deprecated=legacy-resolver scipy==1.7.3 rasa=2.8.25 rasa-sdk==2.8.4
+pip uninstall keras-nightly
 python -m spacy download en_core_web_md
 python -m spacy download de_core_news_sm
 ```
@@ -83,3 +85,8 @@ oc delete secret chatbot-mongodb
 oc delete all -l build=chatbot-core
 oc delete dc,route -l app=chatbot-core
 ```
+ 
+docker run --entrypoint /bin/bash -it rasa/rasa:2.8.25
+
+chmod 777 docker-compose/postgresql
+chmod 777 docker-compose/rasa/.config

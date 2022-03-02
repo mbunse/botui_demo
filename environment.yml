@@ -1,0 +1,10 @@
+name: rasa
+channels:
+  - defaults
+dependencies:
+  - python=3.8
+  # - doit
+  # - pip
+  # - pip:
+  #   - rasa==2.8.25
+  #   - rasa-sdk==2.8.4

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" integrity="sha512-Ez0cGzNzHR1tYAv56860NLspgUGuQw16GiOOp/I2LuTmpSK9xDXlgJz3XN4cnpXWDmkNBKXR/VDMTCnAaEooxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- BotUI -->
+    <!-- required for basic layout -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/botui/0.3.9/botui.min.css" integrity="sha512-EQZJtWFbq1+VUd3w2SSmEcw5C1oJKTZYAzm+C0EIYD64RzTZdvVqQxuie1fjVYRJwXJNVZO0krtzuumAePYJeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+   
+    <!-- default theme - you can create your own theme -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/botui/0.3.9/botui-theme-default.css" integrity="sha512-tVPkSkiVpA7I90WAc0GJM1gJArWQi5VnXu+sZgdrv37OdavH/f4tuzt1xoiSMLmrsGXFc436GIGSTmtgt/g8/A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+       
+    
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <h1>Hello, world!</h1>
+    <div class="botui-app-container" id="hello-world">
+        <bot-ui></bot-ui>
+    </div>
+    <!-- BotUi -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.min.js" integrity="sha512-BKbSR+cfyxLdMAsE0naLReFSLg8/pjbgfxHh/k/kUC82Hy7r6HtR5hLhobaln2gcTvzkyyehrdREdjpsQwy2Jw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/botui/0.3.9/botui.js" integrity="sha512-c7M7iwXK/PW9rpG32LRQHuAkrn7CNSj65kldL1aN/OCzDf/i5jARzCO5+AIUTdmiJ/Je2lbErQialoxoqeW8hg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Socket.oi -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+    var botui = new BotUI('hello-world');
+    var socket = io.connect('http://localhost:5005');
+    function handle_response(bot_res) {
+        if ('text' in bot_res) {
+            botui.message.add({content: bot_res.text, delay: 500}).then(() => {
+                if ('quick_replies' in bot_res) {
+                    // handle boolean and categorical buttons
+                    bot_res.quick_replies.forEach(element => {
+                        element.value=element.payload;
+                        element.text=element.title;
+                        });
+                    botui.action.button({ // let user do something
+                        delay: 1000,
+                        action: bot_res.quick_replies
+                    }).then((res) => {
+                        socket.emit('user_uttered', {message: res.value});
+                    });
+                } else {
+                    action = {}
+        
+                    if ('placeholder' in bot_res) action['placeholder'] = bot_res.placeholder;
+                    if ('sub_type' in bot_res) action['sub_type'] = bot_res.sub_type;
+                    if ('size' in bot_res) action['size'] = bot_res.size;
+                    if ('value' in bot_res) action['value'] = bot_res.value;
+        
+                    botui.action.text({ action: action }).then((res) => {
+                        socket.emit('user_uttered', {message: res.value});
+                    });
+                }
+            });
+        }
+    }
+    socket.emit('user_uttered', {message: "/start_session"});
+
+    socket.on("bot_uttered", handle_response);
+
+    </script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+
+  </body>
+</html>

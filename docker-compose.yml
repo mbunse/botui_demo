@@ -1,0 +1,46 @@
+version: "2"
+
+services:
+  rasa:
+    image: docker.io/rasa/rasa:2.8.25
+    # ports:
+    # - "5005:5005"
+    volumes:
+    - "./backend/:/app/"
+    - ./docker-compose/rasa/.config:/app/.config
+    network_mode: host
+    command:
+    - run 
+    - -m 
+    - models/model.tar.gz 
+    - --port
+    - '5005'
+    - --cors
+    - "*"
+    - --credentials
+    - credentials.yml 
+    - --endpoints
+    - endpoints.yml
+
+  action_server:
+    image: docker.io/rasa/rasa-sdk:2.8.4
+    ports:
+    - "5055:5055"
+    volumes:
+    - "./action_server:/app/actions"
+
+  postgresql:
+    image: docker.io/bitnami/postgresql:14
+    volumes:
+      - ./docker-compose/postgresql:/bitnami/postgresql
+    environment:
+      - POSTGRESQL_PASSWORD=admin
+
+  nginx:
+      image: docker.io/bitnami/nginx:1.21
+      ports:
+      - 8080:8080
+      volumes:
+      - ./frontend:/app
+      # - ./docker-compose/nginx/voila.conf:/opt/bitnami/nginx/conf/server_blocks/voila.conf:ro
+      # network_mode: host

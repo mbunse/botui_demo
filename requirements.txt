@@ -1,0 +1,151 @@
+absl-py==0.13.0 
+aio-pika==6.8.2
+aiofiles==0.8.0
+aio-pika==6.8.2
+aiofiles==0.8.0 
+aiohttp==3.7.4
+aiormq==3.3.1
+APScheduler==3.7.0
+astunparse==1.6.3
+async-generator==1.10
+async-timeout==3.0.1
+attrs @ attrs-21.2.0-py2.py3-none-any.whl 
+bidict @ bidict-0.21.4-py3-none-any.whl 
+boto3 @ boto3-1.20.46-py3-none-any.whl 
+botocore @ botocore-1.23.46-py3-none-any.whl 
+CacheControl @ CacheControl-0.12.10-py2.py3-none-any.whl 
+cachetools @ cachetools-4.2.4-py3-none-any.whl 
+certifi @ certifi-2021.10.8-py2.py3-none-any.whl 
+cffi @ cffi-1.15.0-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl 
+chardet @ chardet-3.0.4-py2.py3-none-any.whl 
+charset-normalizer @ charset_normalizer-2.0.11-py3-none-any.whl 
+clang==5.0 
+cloudpickle @ cloudpickle-1.6.0-py3-none-a$
+colorclass @ colorclass-2.2.2-py2.py3-none-any.whl 
+coloredlogs @ coloredlogs-15.0.1-py2.py3-none-any.whl 
+colorhash @ colorhash-1.0.4-py3-none-any.whl 
+cryptography @ cryptography-3.4.8-cp36-abi3-manylinux_2_24_x86_64.whl 
+cycler @ cycler-0.11.0-py3-none-any.whl 
+decorator @ decorator-4.4.2-py2.py3-none-any.whl 
+dm-tree @ dm_tree-0.1.6-cp38-cp38-manylinux_2_24_x86_64.whl 
+dnspython @ dnspython-1.16.0-py2.py3-none-any.whl 
+docopt==0.6.2 
+fbmessenger @ fbmessenger-6.0.0-py2.py3-none-any.whl 
+flatbuffers @ flatbuffers-1.12-py2.py3-none-any.whl 
+future==0.18.2 
+gast @ gast-0.4.0-py3-none-any.whl 
+google-auth @ google_auth-1.35.0-py2.py3-none-any.whl 
+google-auth-oauthlib @ google_auth_oauthlib-0.4.6-py2.py3-none-any.whl 
+google-pasta @ google_pasta-0.2.0-py3-none-any.whl 
+greenlet @ greenlet-1.1.2-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl 
+grpcio @ grpcio-1.43.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl 
+h11 @ h11-0.9.0-py2.py3-none-any.whl 
+h2 @ h2-3.2.0-py2.py3-none-any.whl 
+h5py @ h5py-3.1.0-cp38-cp38-manylinux1_x86_64.whl 
+hpack @ hpack-3.0.0-py2.py3-none-any.whl 
+hstspreload @ hstspreload-2021.12.1-py3-none-any.whl 
+httptools @ httptools-0.3.0-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl 
+httpx @ httpx-0.11.1-py2.py3-none-any.whl 
+humanfriendly @ humanfriendly-10.0-py2.py3-none-any.whl 
+hyperframe @ hyperframe-5.2.0-py2.py3-none-any.whl 
+idna @ idna-2.10-py2.py3-none-any.whl 
+importlib-metadata @ importlib_metadata-4.8.3-py3-none-any.whl 
+ipaddress @ ipaddress-1.0.23-py2.py3-none-any.whl 
+jmespath @ jmespath-0.10.0-py2.py3-none-any.whl 
+joblib @ joblib-1.0.1-py3-none-any.whl 
+jsonpickle @ jsonpickle-2.0.0-py2.py3-none-any.whl 
+jsonschema @ jsonschema-3.2.0-py2.py3-none-any.whl 
+kafka-python @ kafka_python-2.0.2-py2.py3-$ne-any.whl
+keras @ keras-2.6.0-py2.py3-none-any.whl
+Keras-Preprocessing @ Keras_Preprocessing-1.1.2-py2.py3-none-any.whl
+kiwisolver @ kiwisolver-1.3.1-cp38-cp38-manylinux1_x86_64.whl
+Markdown @ Markdown-3.3.6-py3-none-any.whl
+matplotlib @ matplotlib-3.3.4-cp38-cp38-manylinux1_x86_64.whl
+mattermostwrapper==2.2
+msgpack @ msgpack-1.0.3-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl 
+multidict @ multidict-4.7.6-cp38-cp38-manylinux1_x86_64.whl
+networkx @ networkx-2.5.1-py3-none-any.whl
+numpy @ numpy-1.19.5-cp38-cp38-manylinux2010_x86_64.whl
+oauthlib @ oauthlib-3.2.0-py3-none-any.whl
+opt-einsum @ opt_einsum-3.3.0-py3-none-any.whl
+packaging @ packaging-20.9-py2.py3-none-any.whl
+pamqp @ pamqp-2.3.0-py2.py3-none-any.whl
+Pillow @ Pillow-8.4.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+pkg_resources==0.0.0
+prompt-toolkit @ prompt_toolkit-2.0.10-py3-none-any.whl
+protobuf @ protobuf-3.19.4-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+psycopg2-binary @ psycopg2_binary-2.9.3-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+pyasn1 @ pyasn1-0.4.8-py2.py3-none-any.whl
+pyasn1-modules @ pyasn1_modules-0.2.8-py2.py3-none-any.whl
+pycparser @ pycparser-2.21-py2.py3-none-any.whl
+pydot @ pydot-1.4.2-py2.py3-none-any.whl
+PyJWT @ PyJWT-2.0.0-py3-none-any.whl
+pykwalify @ pykwalify-1.8.0-py2.py3-none-any.whl
+pymongo @ pymongo-3.10.1-cp38-cp38-manylinux2014_x86_64.whl
+pyparsing @ pyparsing-3.0.7-py3-none-any.whl
+pyrsistent @ pyrsistent-0.18.0-cp38-cp38-ma
+nylinux1_x86_64.whl
+pyTelegramBotAPI==3.8.3
+python-crfsuite @ python_crfsuite-0.9.7-cp38-cp38-manylinux1_x86_64.whl
+python-dateutil @ python_dateutil-2.8.2-py2.py3-none-any.whl
+python-engineio @ python_engineio-4.3.1-py3-none-any.whl
+python-socketio @ python_socketio-5.5.1-py3-none-any.whl
+pytz @ pytz-2021.3-py2.py3-none-any.whl
+questionary @ questionary-1.9.0-py3-none-any.whl
+rasa @ rasa-2.8.25-py3-none-any.whl
+rasa-sdk @ rasa_sdk-2.8.4-py3-none-any.whl
+redis @ redis-3.5.3-py2.py3-none-any.whl
+regex @ regex-2021.7.6-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+requests @ requests-2.27.1-py2.py3-none-any.whl
+requests-oauthlib @ requests_oauthlib-1.3.1-py2.py3-none-any.whl
+requests-toolbelt @ requests_toolbelt-0.9.1-py2.py3-none-any.whl
+rfc3986 @ rfc3986-1.5.0-py2.py3-none-any.whl
+rocketchat-API @ rocketchat_API-1.16.0-py3-none-any.whl
+rsa @ rsa-4.8-py3-none-any.whl
+ruamel.yaml @ ruamel.yaml-0.16.13-py2.py3-none-any.whl
+ruamel.yaml.clib @ ruamel.yaml.clib-0.2.6-cp38-cp38-manylinux1_x86_64.whl
+s3transfer @ s3transfer-0.5.0-py3-none-any.whl
+sanic @ sanic-20.3.0-py3-none-any.whl
+Sanic-Cors @ Sanic_Cors-0.10.0.post3-py2.py3-none-any.whl
+sanic-jwt==1.6.0
+Sanic-Plugins-Framework @ Sanic_Plugins_Fra
+mework-0.9.5-py2.py3-none-any.whl
+scikit-learn @ scikit_learn-0.24.2-cp38-cp$8-manylinux2010_x86_64.whl
+scipy @ scipy-1.5.4-cp38-cp38-manylinux1_x86_64.whl
+sentry-sdk @ sentry_sdk-1.2.0-py2.py3-none-any.whl
+six @ six-1.15.0-py2.py3-none-any.whl
+sklearn-crfsuite @ sklearn_crfsuite-0.3.6-py2.py3-none-any.whl
+slackclient @ slackclient-2.9.3-py2.py3-none-any.whl
+sniffio @ sniffio-1.2.0-py3-none-any.whl
+SQLAlchemy @ SQLAlchemy-1.4.31-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+tabulate @ tabulate-0.8.9-py3-none-any.whl
+tarsafe @ tarsafe-0.0.3-py3-none-any.whl
+tensorboard @ tensorboard-2.6.0-py3-none-any.whl
+tensorboard-data-server @ tensorboard_data_
+server-0.6.1-py3-none-manylinux2010_x86_64.whl
+tensorboard-plugin-wit @ tensorboard_plugin_wit-1.8.1-py3-none-any.whl
+tensorflow @ tensorflow-2.6.2-cp38-cp38-manylinux2010_x86_64.whl
+tensorflow-addons @ tensorflow_addons-0.14.0-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl
+tensorflow-estimator @ tensorflow_estimator-2.6.0-py2.py3-none-any.whl
+tensorflow-hub @ tensorflow_hub-0.12.0-py2.py3-none-any.whl
+tensorflow-probability @ tensorflow_probability-0.13.0-py2.py3-none-any.whl
+tensorflow-text @ tensorflow_text-2.6.0-cp38-cp38-manylinux1_x86_64.whl
+termcolor==1.1.0
+terminaltables @ terminaltables-3.1.10-py2.py3-none-any.whl
+threadpoolctl @ threadpoolctl-3.1.0-py3-none-any.whl
+tqdm @ tqdm-4.62.3-py2.py3-none-any.whl
+twilio==6.50.1
+typeguard @ typeguard-2.13.3-py3-none-any.whl
+typing-extensions @ typing_extensions-3.7.4.3-py3-none-any.whl
+tzlocal @ tzlocal-2.1-py2.py3-none-any.whl
+ujson @ ujson-4.3.0-cp38-cp38-manylinux_2_1
+7_x86_64.manylinux2014_x86_64.whl
+urllib3 @ urllib3-1.26.8-py2.py3-none-any.whl
+uvloop @ uvloop-0.14.0-cp38-cp38-manylinux2010_x86_64.whl
+wcwidth @ wcwidth-0.2.5-py2.py3-none-any.whl
+webexteamssdk @ webexteamssdk-1.6-py3-none-any.whl
+websockets==8.0.2
+Werkzeug @ Werkzeug-2.0.2-py3-none-any.whl
+wrapt==1.12.1
+yarl @ yarl-1.7.2-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl
+zipp @ zipp-3.6.0-py3-none-any.whl
